@@ -61,18 +61,11 @@ function buscar_nombre_poliza($array, $codigo){
         
         if($codigo == $key[id]){
             return $key[attributes][nombre];
-        }else{
-            print_r('No encontrado');
         }
 
     }
 
 }
-
-$a = buscar_nombre_poliza($respuesta2[data], 5);
-print_r($a);
-die();
-
 
 $html = '
         
@@ -144,6 +137,9 @@ foreach ($respuesta as $key) {
             $_haber = 'Q' . number_format(($cuentas_[monto] * -1), 2, '.', ',');
         }
 
+
+        $nombre_poliza_ = buscar_nombre_poliza($respuesta2[data], $cuentas_[poliza]);
+
         $html .= '
             <tr>
                 <td class="estilo_celda" style="width: 20%">
@@ -153,7 +149,7 @@ foreach ($respuesta as $key) {
                     ' . $cuentas_[centro_de_costo] . ' 
                 </td>
                 <td class="estilo_celda" style="text-align: center;width: 15%">
-                    ' . $cuentas_[poliza] . ' 
+                    '. $nombre_poliza_ .'
                 </td>
                 <td class="estilo_celda" style="width: 10%;text-align: center;">
                     ' . $cuentas_[fecha] . ' 
