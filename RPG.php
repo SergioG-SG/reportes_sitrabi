@@ -272,11 +272,12 @@ $html.='<tr>
 
 
         $total_1 = suma_saldos($respuesta, ["601101", "602101", "613101", "613102", "613103", "613104", "613106"]);
+        $ntotal_1 = $total_1 - (2 * abs(buscar_cuenta_no_recursiva($respuesta, '61310199')['saldo_final']));
 
 $html .= '<tr>
             <td class="estilo_celda2" style="width: 20%;"></td>
             <td class="estilo_celda3" style="width: 50%;font-weight: bold;">TOTAL PRODUCTOS</td>
-            <td class="estilo_celda3 centrar_texto" style="width: 30%;">Q' . number_format($total_1, 2, '.', ',') . '</td>
+            <td class="estilo_celda3 centrar_texto" style="width: 30%;">Q' . number_format($ntotal_1, 2, '.', ',') . '</td>
         </tr>
             ';
 
