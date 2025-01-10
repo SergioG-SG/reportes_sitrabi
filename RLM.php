@@ -42,7 +42,7 @@ $suma_haber = 0;
 
 // OBTENER NOMBRES DE POLIZAS
 
-$url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-tipo-de-polizas=" : "http://100.78.93.50:8009/api/contabilidad-tipo-de-polizas";
+$url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-tipo-de-polizas" : "http://100.78.93.50:8009/api/contabilidad-tipo-de-polizas";
 
 
 $opciones2 = array('http' => array(
