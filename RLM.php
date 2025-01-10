@@ -60,7 +60,7 @@ function buscar_nombre_poliza($array, $codigo){
     foreach ($array as $key) {
         
         if($codigo == $key[id]){
-            print_r($key);
+            return $key[attributes][nombre];
         }else{
             print_r('No encontrado');
         }
