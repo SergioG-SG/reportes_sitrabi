@@ -124,7 +124,7 @@ foreach ($respuesta as $key) {
                     ' . $cuentas_[centro_de_costo] . ' 
                 </td>
                 <td class="estilo_celda" style="text-align: center;width: 15%">
-                    ' . $cuentas_[poliza] . ' 
+                    ' . $cuentas_[numero_documento] . ' 
                 </td>
                 <td class="estilo_celda" style="width: 10%;text-align: center;">
                     ' . $cuentas_[fecha] . ' 
