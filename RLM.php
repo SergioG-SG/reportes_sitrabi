@@ -53,7 +53,7 @@ $opciones2 = array('http' => array(
 $contexto2 = stream_context_create($opciones2);
 $respuesta2 = json_decode(file_get_contents($url2, false, $contexto2), true);
 
-print_r($respuesta2);
+print_r($respuesta2[data]);
 
 die();
 
