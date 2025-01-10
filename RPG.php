@@ -24,7 +24,9 @@ $url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/centros
 
 
 // consulta al gparametros para traer el saldo final que se guarda manualmente // tiene un 0 al final porque es el centro de costo que pide pero que se ha desabilitado
-$url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/parametros/0" : "http://100.78.93.50:8009/api/gparametros/c/parametros/0";
+// $url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/parametros/0" : "http://100.78.93.50:8009/api/gparametros/c/parametros/0";
+
+$url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/inventario_por_trimestre/". $fecha_final : "http://100.78.93.50:8009/api/gparametros/c/inventario_por_trimestre/". $fecha_final;
 
 $data = array(
     "data" => array(
@@ -433,7 +435,7 @@ $html .= '<tr>
 // LA FORMULAR ES LA SIGUIENTE: saldo de cuenta costo de ventas (713101) + saldo de inventario de mercaderia (1131060101) - inventario final (que está en gparametro)
 
 
-        $formula_costo_de_ventas = (abs(buscar_cuenta_no_recursiva($respuesta, '713101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final'])) - abs($respuesta3[0]['inventario_final']);
+        $formula_costo_de_ventas = (abs(buscar_cuenta_no_recursiva($respuesta, '713101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final'])) - abs($respuesta3['inventario_final']);
 
 
 $html.= '<tr>    
