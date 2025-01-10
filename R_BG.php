@@ -128,7 +128,13 @@ $total_2_RPG = suma_saldos($respuesta, ["701101", "706101", "706102", "706103", 
 
 $utilidad = $total_1_RPG - $total_2_RPG;
 
-print_r($utilidad);
+
+echo "Activo: " . $total_1_RPG . "</br>";
+echo "Pasivo: " . $total_2_RPG . "</br>";
+echo "Utilidad: " . $utilidad . "</br>";
+
+
+// print_r($utilidad);
 die();
 
 $reserva_irrepartible = (80 / 100) * $utilidad;
