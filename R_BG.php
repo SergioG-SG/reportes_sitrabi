@@ -129,8 +129,8 @@ $total_2_RPG = suma_saldos($respuesta, ["701101", "706101", "706102", "706103", 
 $utilidad = $total_1_RPG - $total_2_RPG;
 
 
-echo "Activo: " . $total_1_RPG . "</br>";
-echo "Pasivo: " . $total_2_RPG . "</br>";
+echo "Activo: " . $total_1_RPG - (2 * buscar_cuenta_no_recursiva($respuesta, '61310199')['saldo_final']) . "</br>";
+echo "Pasivo: " . $total_2_RPG - (2 * buscar_cuenta_no_recursiva($respuesta, '7131010105')['saldo_final']) . "</br>";
 echo "Utilidad: " . $utilidad . "</br>";
 
 
