@@ -450,7 +450,7 @@ $html .= '<tr>
 $html.= '<tr>    
             <td class="estilo_celda6" style="width: 20%;">713101</td>
             <td class="estilo_celda6" style="width: 60%;">Costo de ventas</td>
-            <td class="estilo_celda6 centrar_texto" style="width: 20%;">Q'. number_format($ctv_inventario_final, 2, '.', ',') .'</td>
+            <td class="estilo_celda6 centrar_texto" style="width: 20%;">Q'. number_format($formula_costo_de_ventas, 2, '.', ',') .'</td>
         </tr>
 
         <tr>    
