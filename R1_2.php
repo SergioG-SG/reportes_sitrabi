@@ -81,7 +81,7 @@ $contexto3 = stream_context_create($query_inventario_final);
 $respuesta3 = json_decode(file_get_contents($url3, false, $contexto3), true);
 
 echo "hola mundo";
-print_r($respuesta3);
+print_r($respuesta3[0][inventario_final]);
 die();
 
 // CUENTAS PARA SUMAR DE LA SEGUNDA COLUMNA NIVEL 6
