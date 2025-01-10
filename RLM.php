@@ -53,13 +53,11 @@ $opciones2 = array('http' => array(
 $contexto2 = stream_context_create($opciones2);
 $respuesta2 = json_decode(file_get_contents($url2, false, $contexto2), true);
 
-print_r($respuesta2[data]);
 
-die();
 
 function buscar_nombre_poliza($codigo){
 
-    foreach ($respuesta2 as $key) {
+    foreach ($respuesta2[data] as $key) {
         
         if ($codigo == $key[id]) {
             return $key[nombre];
@@ -69,8 +67,9 @@ function buscar_nombre_poliza($codigo){
 
 }
 
-// print_r($respuesta);
-// die();
+$a = buscar_nombre_poliza(5);
+echo $a;
+die();
 
 
 $html = '
