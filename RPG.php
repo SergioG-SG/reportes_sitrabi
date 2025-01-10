@@ -435,7 +435,16 @@ $html .= '<tr>
 // LA FORMULAR ES LA SIGUIENTE: saldo de cuenta costo de ventas (713101) + saldo de inventario de mercaderia (1131060101) - inventario final (que está en gparametro)
 
 
-        $formula_costo_de_ventas = (abs(buscar_cuenta_no_recursiva($respuesta, '713101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final'])) - abs($respuesta3['inventario_final']);
+        $ctv_713101 = abs(buscar_cuenta_no_recursiva($respuesta, '713101')['saldo_final']);
+        $ctv_1131060101 = abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final']);
+        $ctv_7131010105 = abs(buscar_cuenta_no_recursiva($respuesta, '7131010105')['saldo_final']);
+        $ctv_inventario_final = abs($respuesta3['inventario_final']);
+
+        // $formula_costo_de_ventas = ((abs(buscar_cuenta_no_recursiva($respuesta, '713101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final'])) - (2 * abs(buscar_cuenta_no_recursiva($respuesta, '7131010105')['saldo_final']))) - abs($respuesta3['inventario_final']);
+
+        // $formula_costo_de_ventas = (($ctv_713101 + $ctv_1131060101) - (2 * $ctv_7131010105)) - $ctv_inventario_final);
+        $formula_costo_de_ventas = (($ctv_713101 + $ctv_1131060101) - (2 * $ctv_7131010105)) - $ctv_inventario_final;
+
 
 
 $html.= '<tr>    
