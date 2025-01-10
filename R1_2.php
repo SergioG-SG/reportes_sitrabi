@@ -1342,6 +1342,10 @@ $listado[105]['sub_total_col_3'] = $listado[52]['sub_total_col_2'] + $listado[64
 
 $listado[13]['sub_total_col_3'] = (abs($listado[10]['sub_total_col_2']) - abs(buscar_cuenta_no_recursiva($respuesta, '6131019901')['saldo_final'])) - abs(buscar_cuenta_no_recursiva($respuesta, '6131019902')['saldo_final']);
 
+//ORIGINAL
+//$listado[31]['sub_total_col_3'] = abs($listado[29]['sub_total_col_2']) - $respuesta3[0]['inventario_final'];//abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final']);
+
+//PRUEBAS
 $listado[31]['sub_total_col_3'] = abs($listado[29]['sub_total_col_2']) - $respuesta3[0]['inventario_final'];//abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final']);
 
 $listado[32]['sub_total_col_3'] = abs($listado[13]['sub_total_col_3']) - abs($listado[31]['sub_total_col_3']);
