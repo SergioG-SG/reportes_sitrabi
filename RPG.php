@@ -236,7 +236,7 @@ $html .= '
             <td class="estilo_celda_ fondo_gris_titulo estilo_bold centrar_texto" style="width: 20%;"></td>
         </tr>';
 
-        $formula_ventas = (abs(buscar_cuenta_no_recursiva($respuesta, '613101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '61310199')['saldo_final']));
+        $formula_ventas = (abs(buscar_cuenta_no_recursiva($respuesta, '613101')['saldo_final']) - abs(buscar_cuenta_no_recursiva($respuesta, '61310199')['saldo_final']));
 
     //<td class="estilo_celda6 centrar_texto" style="width: 20%;">Q'. number_format(abs(buscar_cuenta_no_recursiva($respuesta, '613101')['saldo_final']), 2, '.', ',') .'</td>
 
