@@ -40,6 +40,34 @@ $respuesta = json_decode(file_get_contents($url, false, $contexto), true);
 $suma_debe = 0;
 $suma_haber = 0;
 
+// OBTENER NOMBRES DE POLIZAS
+
+$url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-tipo-de-polizas=" : "http://100.78.93.50:8009/api/contabilidad-tipo-de-polizas";
+
+
+$opciones2 = array('http' => array(
+    'method' => 'GET',
+    'header' => 'Authorization: Bearer ' . $token,
+));
+
+$contexto2 = stream_context_create($opciones2);
+$respuesta2 = json_decode(file_get_contents($url2, false, $contexto2), true);
+
+print_r($respuesta2);
+
+die();
+
+function buscar_nombre_poliza($codigo){
+
+    foreach ($respuesta2 as $key) {
+        
+        if ($codigo == $key[id]) {
+            return $key[nombre];
+        }
+
+    }
+
+}
 
 // print_r($respuesta);
 // die();
