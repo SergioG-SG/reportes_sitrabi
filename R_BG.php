@@ -20,9 +20,9 @@ $env = $_GET['env'];
 $url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos" : "http://100.78.93.50:8009/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos";
 
 // consulta al gparametros para traer el saldo final que se guarda manualmente // tiene un 0 al final porque es el centro de costo que pide pero que se ha desabilitado
-$url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/parametros/0" : "http://100.78.93.50:8009/api/gparametros/c/parametros/0";
+// $url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/parametros/0" : "http://100.78.93.50:8009/api/gparametros/c/parametros/0";
 
-// $url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/inventario_por_trimestre/". $fecha_final : "http://100.78.93.50:8009/api/gparametros/c/inventario_por_trimestre/". $fecha_final;
+$url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/inventario_por_trimestre/". $fecha_final : "http://100.78.93.50:8009/api/gparametros/c/inventario_por_trimestre/". $fecha_final;
 
 
 $data = array(
@@ -120,7 +120,7 @@ function suma_saldos($resp, $array){
 
 // CACULO EN BASE AL REPORTE RPG.PHP
 
-$formula_costo_de_ventas = (abs(buscar_cuenta_no_recursiva($respuesta, '713101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final'])) - abs($respuesta3[0]['inventario_final']);
+$formula_costo_de_ventas = (abs(buscar_cuenta_no_recursiva($respuesta, '713101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final'])) - abs($respuesta3['inventario_final']);
 
 $total_1_RPG = suma_saldos($respuesta, ["601101", "602101", "613101", "613102", "613103", "613104", "613106"]);
 
