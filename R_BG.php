@@ -130,10 +130,11 @@ $utilidad = $total_1_RPG - $total_2_RPG;
 
 $operacion_activo = $total_1_RPG - (2 * abs(buscar_cuenta_no_recursiva($respuesta, '61310199')['saldo_final']));
 $operacion_pasivo = $total_2_RPG - (2 * abs(buscar_cuenta_no_recursiva($respuesta, '7131010105')['saldo_final']));
+$operacion_utilidad = $operacion_activo - $operacion_pasivo;
 
 echo "Activo: " . $operacion_activo . "</br>";
 echo "Pasivo: " . $operacion_pasivo . "</br>";
-echo "Utilidad: " . $utilidad . "</br>";
+echo "Utilidad: " . $operacion_utilidad . "</br>";
 
 
 // print_r($utilidad);
