@@ -344,12 +344,11 @@ $html .= '
             <td class="estilo_celda centrar_texto" style="width: ' . $row_3 . '%;"></td>
             <td class="estilo_celda centrar_texto" style="width: ' . $row_4 . '%;">Q'. number_format(abs($total_del_1), 2, '.', ',') .'</td>
         </tr>
-
         <tr>
             <td class="estilo_celda2" style="width: ' . $row_1 . '%;"></td>
             <td class="estilo_celda" style="width: ' . $row_2 . '%;">TOTAL DEL ACTIVO</td>
             <td class="estilo_celda centrar_texto" style="width: ' . $row_3 . '%;"></td>
-            <td class="estilo_celda centrar_texto" style="width: ' . $row_4 . '%;">Q'. number_format(abs(($sub_total_activo + $total_del_1)), 2, '.', ',') .'</td>
+            <td class="estilo_celda centrar_texto" style="width: ' . $row_4 . '%;">Q'. number_format(abs(($sub_total_activo - $total_del_1)), 2, '.', ',') .'</td>
         </tr>
 
 
