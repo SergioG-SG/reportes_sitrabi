@@ -82,13 +82,13 @@ foreach ($respuesta as $key) {
             </tr>
             <tr>
                 <td class="estilo_celda fondo_gris_titulo">
-                    No. Documento
+                    Póliza
                 </td>
                 <td class="estilo_celda fondo_gris_titulo">
                     Centro de costo
                 </td>
                 <td class="estilo_celda fondo_gris_titulo" style="text-align: center;">
-                    Poliza
+                    Tipo
                 </td>
                 <td class="estilo_celda fondo_gris_titulo" style="text-align: center;">
                     Fecha
@@ -124,7 +124,7 @@ foreach ($respuesta as $key) {
                     ' . $cuentas_[centro_de_costo] . ' 
                 </td>
                 <td class="estilo_celda" style="text-align: center;width: 15%">
-                    ' . $cuentas_[numero_documento] . ' 
+                    ' . $cuentas_[poliza] . ' 
                 </td>
                 <td class="estilo_celda" style="width: 10%;text-align: center;">
                     ' . $cuentas_[fecha] . ' 
