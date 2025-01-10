@@ -55,9 +55,9 @@ $respuesta2 = json_decode(file_get_contents($url2, false, $contexto2), true);
 
 
 
-function buscar_nombre_poliza($codigo){
+function buscar_nombre_poliza($array, $codigo){
 
-    foreach ($respuesta2[data] as $key) {
+    foreach ($array as $key) {
         
         if ($codigo == $key[id]) {
             return $key[nombre];
@@ -67,8 +67,8 @@ function buscar_nombre_poliza($codigo){
 
 }
 
-$a = buscar_nombre_poliza(5);
-echo $a;
+$a = buscar_nombre_poliza($respuesta2[data], 5);
+print_r($a);
 die();
 
 
