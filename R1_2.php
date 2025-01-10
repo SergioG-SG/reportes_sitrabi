@@ -80,9 +80,9 @@ $query_inventario_final = array('http' => array(
 $contexto3 = stream_context_create($query_inventario_final);
 $respuesta3 = json_decode(file_get_contents($url3, false, $contexto3), true);
 
-echo ": ";
-print_r($respuesta3[inventario_final]);
-die();
+// echo ": ";
+// print_r($respuesta3[inventario_final]);
+// die();
 
 // CUENTAS PARA SUMAR DE LA SEGUNDA COLUMNA NIVEL 6
 
@@ -1352,7 +1352,7 @@ $listado[13]['sub_total_col_3'] = (abs($listado[10]['sub_total_col_2']) - abs(bu
 //$listado[31]['sub_total_col_3'] = abs($listado[29]['sub_total_col_2']) - $respuesta3[0]['inventario_final'];//abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final']);
 
 //PRUEBAS
-$listado[31]['sub_total_col_3'] = abs($listado[29]['sub_total_col_2']) - $respuesta3[0]['inventario_final'];//abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final']);
+$listado[31]['sub_total_col_3'] = abs($listado[29]['sub_total_col_2']) - $respuesta3['inventario_final'];//abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final']);
 
 $listado[32]['sub_total_col_3'] = abs($listado[13]['sub_total_col_3']) - abs($listado[31]['sub_total_col_3']);
 
@@ -1436,7 +1436,8 @@ foreach ($listado as $key) {
         } elseif ($key['posicion'] == 2) {
 
             if ((string)$key['sel'] == 1) {
-                $set_variable = $respuesta3[0]['inventario_final'];
+                //$set_variable = $respuesta3[0]['inventario_final'];
+                $set_variable = $respuesta3['inventario_final'];
             }else{
                 // SE AGREGA ESTA CONDICIONAL A PEDIDO DEL CONTADOR, YA QUE HAY QUE SUMAR DOS CUENTAS MÁS
 
