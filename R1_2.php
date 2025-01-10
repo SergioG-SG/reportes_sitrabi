@@ -24,9 +24,9 @@ $url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/centros
 
 
 // consulta al gparametros para traer el saldo final que se guarda manualmente // tiene un 0 al final porque es el centro de costo que pide pero que se ha desabilitado
-//$url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/parametros/0" : "http://100.78.93.50:8009/api/gparametros/c/parametros/0";
+$url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/parametros/0" : "http://100.78.93.50:8009/api/gparametros/c/parametros/0";
 
-$url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/inventario_por_trimestre" : "http://100.78.93.50:8009/api/gparametros/c/inventario_por_trimestre";
+// $url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/inventario_por_trimestre" : "http://100.78.93.50:8009/api/gparametros/c/inventario_por_trimestre";
 
 
 $data = array(
@@ -80,8 +80,8 @@ $query_inventario_final = array('http' => array(
 $contexto3 = stream_context_create($query_inventario_final);
 $respuesta3 = json_decode(file_get_contents($url3, false, $contexto3), true);
 
-print_r($respuesta3);
-die();
+// print_r($respuesta3);
+// die();
 
 // CUENTAS PARA SUMAR DE LA SEGUNDA COLUMNA NIVEL 6
 
