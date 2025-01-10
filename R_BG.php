@@ -126,19 +126,17 @@ $total_1_RPG = suma_saldos($respuesta, ["601101", "602101", "613101", "613102", 
 
 $total_2_RPG = suma_saldos($respuesta, ["701101", "706101", "706102", "706103", "706104", "706105", "706106", "706107", "706108", "706109", "706110", "706199", "709199", "713102", "713103", "713104", "714101", "714102", "714103", "714104", "714105", "714106", "714107", "714108", "714109", "714110", "714111", "714112", "715101", "715102", "715103", "715104", "715105", "715106", "715107", "715108", "715109", "715110", "715111", "716101", "716102", "716103", "716104", "716105", "716106", "716107", "716108", "716109", "716110", "716111"]) + $formula_costo_de_ventas;
 
-$utilidad = $total_1_RPG - $total_2_RPG;
 
 $operacion_activo = $total_1_RPG - (2 * abs(buscar_cuenta_no_recursiva($respuesta, '61310199')['saldo_final']));
 $operacion_pasivo = $total_2_RPG - (2 * abs(buscar_cuenta_no_recursiva($respuesta, '7131010105')['saldo_final']));
+
 $operacion_utilidad = $operacion_activo - $operacion_pasivo;
 
-echo "Activo: " . $operacion_activo . "</br>";
-echo "Pasivo: " . $operacion_pasivo . "</br>";
-echo "Utilidad: " . $operacion_utilidad . "</br>";
+$utilidad = $operacion_activo - $operacion_pasivo;
+// echo "Activo: " . $operacion_activo . "</br>";
+// echo "Pasivo: " . $operacion_pasivo . "</br>";
+// echo "Utilidad: " . $operacion_utilidad . "</br>";
 
-
-// print_r($utilidad);
-die();
 
 $reserva_irrepartible = (80 / 100) * $utilidad;
 
