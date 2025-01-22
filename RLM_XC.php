@@ -23,7 +23,7 @@ $env = $_GET['env'];
 
 //OBTENER ARBOL DE CUENTAS
 
-$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transacciones/c/libro_mayor_por_cuenta?fecha_inicial=". $fecha_inicial ."&fecha_final=" . $fecha_final : "http://100.78.93.50:8009/api/contabilidad-transacciones/c/libro_mayor_por_cuenta?fecha_inicial=". $fecha_inicial ."&fecha_final=" . $fecha_final . "&cuenta=" . $cuenta;
+$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transacciones/c/libro_mayor_por_cuenta?fecha_inicial=". $fecha_inicial ."&fecha_final=" . $fecha_final . "&cuenta=". $cuenta : "http://100.78.93.50:8009/api/contabilidad-transacciones/c/libro_mayor_por_cuenta?fecha_inicial=". $fecha_inicial ."&fecha_final=" . $fecha_final . "&cuenta=" . $cuenta;
 
 
 // OBTENER CATALOGO DE CUENTAS
