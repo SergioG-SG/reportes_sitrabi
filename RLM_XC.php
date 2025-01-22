@@ -80,7 +80,7 @@ $html = '
             LIBRO MAYOR ' . date('d/m/Y', strtotime($fecha_inicial)) . ' al ' . date('d/m/Y', strtotime($fecha_final)) . '
         </div>
         <div class="titulo">
-             '. $respuesta[0]['nombre_cuenta'] .'
+             ** '. $respuesta[0]['nombre_cuenta'] .' **
         </div>
         <table class="table">
             
