@@ -9,53 +9,46 @@ require_once('mpdf/mpdf.php');
 
 // $token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE3MTg5OTQzLCJleHAiOjE3MTk3ODE5NDN9.p8hRKiWAZRXFSkhSuBjq3_kI_7OIroYziOYgZVQPiAM";
 
-$fecha_inicial = $_GET['fecha_inicial'];
-$fecha_final = $_GET['fecha_final'];
-$tipo_resumen = $_GET['tipo_resumen'];
-$centro_de_costo = $_GET['centro_de_costo'];
-$tipo_de_poliza = $_GET['tipo_de_poliza'];
+$ids = $_GET['ids'];
 $token = $_GET['token'];
 $env = $_GET['env'];
 
 
-$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_libro_diario" : "http://100.78.93.50:8009/api/contabilidad-transaccion-cabeceras/c/reporte_libro_diario";
-$url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-tipo-de-polizas" : "http://100.78.93.50:8009/api/contabilidad-tipo-de-polizas";
-
-$data = array(
-    "data" => array(
-        "fecha_inicial" => $fecha_inicial,
-        "fecha_final" => $fecha_final,
-        "tipo_resumen" => $tipo_resumen,
-        "centro_de_costo" => $centro_de_costo,
-        "tipo_de_poliza" => $tipo_de_poliza
-    )
-);
+$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transacciones?filters[id_random][\$eq]=". $ids . "&pagination[page]=1&pagination[pageSize]=500" : "http://100.78.93.50:8009/api/contabilidad-transacciones?filters[id_random][\$eq]=". $ids . "&pagination[page]=1&pagination[pageSize]=500";
 
 
-$opciones = array(
-    'http' => array(
-        'method' => 'POST',
-        'header' => array(
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $token
-        ),
-        'content' => json_encode($data)
-    )
-);
+$url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras?filters[id_random][\$eq]=" . $ids : "http://100.78.93.50:8009/api/contabilidad-transaccion-cabeceras?filters[id_random][\$eq]=" . $ids;
 
 
-// $opciones = array('http' => array(
-//     'method' => 'GET',
-//     'header' => 'Authorization: Bearer ' . $token,
-// ));
-
-$contexto = stream_context_create($opciones);
-$respuesta = json_decode(file_get_contents($url, false, $contexto), true);
+$url4 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-tipo-de-polizas" : "http://100.78.93.50:8009/api/contabilidad-tipo-de-polizas";
 
 
 
+// $data = array(
+//     "data" => array(
+//         "fecha_inicial" => $fecha_inicial,
+//         "fecha_final" => $fecha_final,
+//         "tipo_resumen" => $tipo_resumen,
+//         "centro_de_costo" => $centro_de_costo,
+//         "tipo_de_poliza" => $tipo_de_poliza
+//     )
+// );
 
-// NOMBRES DE POLIZAS
+
+// $opciones = array(
+//     'http' => array(
+//         'method' => 'POST',
+//         'header' => array(
+//             'Content-Type: application/json',
+//             'Authorization: Bearer ' . $token
+//         ),
+//         'content' => json_encode($data)
+//     )
+// );
+
+
+
+// CABECERA DE LA POLIZA
 
 $opciones2 = array('http' => array(
     'method' => 'GET',
@@ -63,9 +56,31 @@ $opciones2 = array('http' => array(
 ));
 
 $contexto2 = stream_context_create($opciones2);
-$polizas_ = json_decode(file_get_contents($url2, false, $contexto2), true);
+$cabecera = json_decode(file_get_contents($url2, false, $contexto2), true);
 
 
+// print_r($cabecera[data][0][attributes][poliza]);
+// die();
+
+
+// DETALLE DE LA POLIZA
+$opciones = array('http' => array(
+    'method' => 'GET',
+    'header' => 'Authorization: Bearer ' . $token,
+));
+
+$contexto = stream_context_create($opciones);
+$detalle = json_decode(file_get_contents($url, false, $contexto), true);
+
+// NOMBRE POLIZAS
+
+$opciones4 = array('http' => array(
+    'method' => 'GET',
+    'header' => 'Authorization: Bearer ' . $token,
+));
+
+$contexto4 = stream_context_create($opciones4);
+$polizas_ = json_decode(file_get_contents($url4, false, $contexto4), true);
 
 
 function convertir_nombre_poliza($polizas, $id)
@@ -81,41 +96,55 @@ function convertir_nombre_poliza($polizas, $id)
 }
 
 
+function obtener_nombre_cuenta($codigo, $token, $empresa){
+
+    $url_3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/catalogo-de-cuentas?filters[codigo_formateado][\$eq][0]=". $codigo ."&filters[empresa][\$eq]=1" : "http://100.78.93.50:8009/api/catalogo-de-cuentas?filters[codigo_formateado][\$eq][0]=". $codigo ."&filters[empresa][\$eq][1]=" . $empresa;
+
+    $opciones_3 = array('http' => array(
+        'method' => 'GET',
+        'header' => 'Authorization: Bearer ' . $token,
+    ));
+
+    $contexto_3 = stream_context_create($opciones_3);
+    $datos = json_decode(file_get_contents($url_3, false, $contexto_3), true);
+
+
+    return $datos[data][0][attributes][nombre_cuenta];
+
+}
+
+
+
+
+
 $html = '
         
         <div class="titulo">
             COOPERATIVA SITRABI, R.L.
         </div>
         <div class="titulo">
-            LIBRO DE DIARIO DEL ' . date('d/m/Y', strtotime($fecha_inicial)) . ' al ' . date('d/m/Y', strtotime($fecha_final)) . '
+            POLIZA
         </div>
         <table class="table">
 
     ';
 
-foreach ($respuesta[data] as $key) {
 
 
-    $_tipo_documento = '';
 
-    if ($key[sistema] == 'CONTA') {
-        $_tipo_documento = 'POLIZA';
-    } else {
-        $prefijo = substr($key[sistema], 0, 3) . "-" . substr($key[modulo], 0, 3);
-        $_tipo_documento = $prefijo;
-    }
+
 
 
     $html .= '
             <tr>
                 <td colspan=1 class="fecha_registro">
-
+                    TIPO: '. convertir_nombre_poliza($polizas_, $cabecera[data][0][attributes][poliza]) .'
                 </td>
                 <td colspan=1 class="fecha_registro">
-                    ' . $key[fecha] . '
+                    FECHA: '. $cabecera[data][0][attributes][fecha] .'
                 </td>
                 <td colspan=1 class="fecha_registro">
-                    
+                    No. Doc: '. $cabecera[data][0][attributes][numero_documento] .'
                 </td>
                 <td colspan=1 class="fecha_registro" style="font-size: 8px;">
 
@@ -139,26 +168,26 @@ foreach ($respuesta[data] as $key) {
     $sumatoria_debe = 0;
     $sumatoria_haber = 0;
 
-    foreach ($key[detalle] as $detail) {
+    foreach ($detalle[data] as $detail) {
         $_debe = 0;
         $_haber = 0;
 
-        if ($detail[debe] != 0) {
-            $_debe = 'Q' . number_format($detail[debe], 2, '.', ',');
+        if ($detail[attributes][monto] > 0) {
+            $_debe = 'Q' . number_format(abs($detail[attributes][monto]), 2, '.', ',');
             $_haber = '';
         } else {
             $_debe = '';
-            $_haber = 'Q' . number_format($detail[haber], 2, '.', ',');
+            $_haber = 'Q' . number_format(abs($detail[attributes][monto]), 2, '.', ',');
         }
 
 
         $html .= '
                     <tr>
                         <td class="estilo_celda" style="width: 20%";>
-                            ' . $detail[codigo_cuenta] . ' 
+                            ' . $detail[attributes][codigo_cuenta] . ' 
                         </td>
                         <td class="estilo_celda" style="width: 50%";>
-                            ' . $detail[nombre_cuenta] . ' 
+                            ' . obtener_nombre_cuenta($detail[attributes][codigo_cuenta], $token, 1) . ' 
                         </td>
                         <td class="estilo_celda" style="text-align: center;width: 15%;">
                             ' . $_debe . '
@@ -169,10 +198,10 @@ foreach ($respuesta[data] as $key) {
         
                     </tr>';
 
-        if ($detail[debe] != 0) {
-            $sumatoria_debe += $detail[debe];
+        if ($detail[attributes][monto] > 0) {
+            $sumatoria_debe += abs($detail[attributes][monto]);
         } else {
-            $sumatoria_haber += $detail[haber];
+            $sumatoria_haber += abs($detail[attributes][monto]);
         }
     }
 
@@ -209,7 +238,7 @@ foreach ($respuesta[data] as $key) {
                 <td class="estilo_celda"></td>
             </tr>
         ';
-}
+
 
 $html .= '
         </table>
@@ -221,4 +250,4 @@ $css = file_get_contents('css/estilos.css');
 $mpdf->writeHTML($css, 1);
 $mpdf->writeHTML($html);
 
-$mpdf->Output('Reporte_Libro_Diario.pdf', 'I');
+$mpdf->Output('Impresion_Partida.pdf', 'I');
