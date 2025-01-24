@@ -22,7 +22,8 @@ $url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabi
 
 $url4 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-tipo-de-polizas" : "http://100.78.93.50:8009/api/contabilidad-tipo-de-polizas";
 
-
+print_r($url);
+die();
 
 // $data = array(
 //     "data" => array(
