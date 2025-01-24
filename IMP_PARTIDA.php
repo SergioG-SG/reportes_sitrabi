@@ -192,10 +192,10 @@ $html = '
                         <td class="estilo_celda" style="width: 50%";>
                             ' . obtener_nombre_cuenta($detail[attributes][codigo_cuenta], $token, 1, $env) . ' 
                         </td>
-                        <td class="estilo_celda" style="width: 15%;">
+                        <td class="estilo_celda" style="text-align: center;width: 15%;">
                             ' . $_debe . '
                         </td>
-                        <td class="estilo_celda" style="width: 15%;">
+                        <td class="estilo_celda" style="text-align: center;width: 15%;">
                             ' . $_haber . '
                         </td>
         
