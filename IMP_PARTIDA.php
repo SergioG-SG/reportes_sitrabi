@@ -52,10 +52,11 @@ $url4 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabi
 $opciones2 = array('http' => array(
     'method' => 'GET',
     'header' => 'Authorization: Bearer ' . $token,
+    'timeout' => 10
 ));
 
 $contexto2 = stream_context_create($opciones2);
-$cabecera = json_decode(file_get_contents($url2, false, $contexto2), true);
+$cabecera = json_decode(@file_get_contents($url2, false, $contexto2), true);
 
 
 // print_r($cabecera[data][0][attributes][poliza]);
@@ -66,20 +67,22 @@ $cabecera = json_decode(file_get_contents($url2, false, $contexto2), true);
 $opciones = array('http' => array(
     'method' => 'GET',
     'header' => 'Authorization: Bearer ' . $token,
+    'timeout' => 10
 ));
 
 $contexto = stream_context_create($opciones);
-$detalle = json_decode(file_get_contents($url, false, $contexto), true);
+$detalle = json_decode(@file_get_contents($url, false, $contexto), true);
 
 // NOMBRE POLIZAS
 
 $opciones4 = array('http' => array(
     'method' => 'GET',
     'header' => 'Authorization: Bearer ' . $token,
+    'timeout' => 10
 ));
 
 $contexto4 = stream_context_create($opciones4);
-$polizas_ = json_decode(file_get_contents($url4, false, $contexto4), true);
+$polizas_ = json_decode(@file_get_contents($url4, false, $contexto4), true);
 
 
 function convertir_nombre_poliza($polizas, $id)
@@ -95,13 +98,14 @@ function convertir_nombre_poliza($polizas, $id)
 }
 
 
-function obtener_nombre_cuenta($codigo, $token, $empresa){
+function obtener_nombre_cuenta($codigo, $token, $empresa, $env){
 
     $url_3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/catalogo-de-cuentas?filters[codigo_formateado][\$eq][0]=". $codigo ."&filters[empresa][\$eq][1]=1" : "http://100.78.93.50:8009/api/catalogo-de-cuentas?filters[codigo_formateado][\$eq][0]=". $codigo ."&filters[empresa][\$eq][1]=" . $empresa;
 
     $opciones_3 = array('http' => array(
         'method' => 'GET',
         'header' => 'Authorization: Bearer ' . $token,
+        'timeout' => 10
     ));
 
     $contexto_3 = stream_context_create($opciones_3);
@@ -186,7 +190,7 @@ $html = '
                             ' . $detail[attributes][codigo_cuenta] . ' 
                         </td>
                         <td class="estilo_celda" style="width: 50%";>
-                            ' . obtener_nombre_cuenta($detail[attributes][codigo_cuenta], $token, 1) . ' 
+                            ' . obtener_nombre_cuenta($detail[attributes][codigo_cuenta], $token, 1, $env) . ' 
                         </td>
                         <td class="estilo_celda" style="text-align: center;width: 15%;">
                             ' . $_debe . '
