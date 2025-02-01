@@ -183,10 +183,10 @@ $html = '
                 <td class="estilo_celda" style="width: 20%">
                     ' . $key[numero_documento] . ' 
                 </td>
-                <td class="estilo_celda" style="width: 30%">
+                <td class="estilo_celda" style="width: 15%">
                     '. $nombre_poliza_ .'
                 </td>
-                <td class="estilo_celda" style="text-align: center;width: 15%">
+                <td class="estilo_celda" style="text-align: center;width: 30%">
             '. $nombre_centro_de_costo .'
                 </td>
                 <td class="estilo_celda" style="width: 10%;text-align: center;">
