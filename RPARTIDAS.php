@@ -225,7 +225,6 @@ $html = '
         <td class="estilo_celda"></td>
         <td class="estilo_celda"></td>
         <td class="estilo_celda"></td>
-        <td class="estilo_celda"></td>
     </tr>
 ';
 
