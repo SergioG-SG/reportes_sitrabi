@@ -118,7 +118,7 @@ $html = '
             TIPO DE PÓLIZA: '. $name_tipo_poliza .'
             
         </div>
-        <table class="table">
+        <table border="1" class="table">
             
     ';
 
