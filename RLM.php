@@ -31,10 +31,11 @@ $url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabil
 $opciones = array('http' => array(
     'method' => 'GET',
     'header' => 'Authorization: Bearer ' . $token,
+    'timeout' => 10
 ));
 
 $contexto = stream_context_create($opciones);
-$respuesta = json_decode(file_get_contents($url, false, $contexto), true);
+$respuesta = json_decode(@file_get_contents($url, false, $contexto), true);
 
 
 $suma_debe = 0;
@@ -48,10 +49,11 @@ $url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabi
 $opciones2 = array('http' => array(
     'method' => 'GET',
     'header' => 'Authorization: Bearer ' . $token,
+     'timeout' => 10
 ));
 
 $contexto2 = stream_context_create($opciones2);
-$respuesta2 = json_decode(file_get_contents($url2, false, $contexto2), true);
+$respuesta2 = json_decode(@file_get_contents($url2, false, $contexto2), true);
 
 
 
@@ -73,7 +75,7 @@ $html = '
             COOPERATIVA SITRABI, R.L.
         </div>
         <div class="titulo">
-            LIBRO MAYOR ' . date('d/m/Y', strtotime($fecha_inicial)) . ' al ' . date('d/m/Y', strtotime($fecha_final)) . '
+            CONSOLIDADO DE PARTIDAS DE DIARIO ' . date('d/m/Y', strtotime($fecha_inicial)) . ' al ' . date('d/m/Y', strtotime($fecha_final)) . '
         </div>
         <table class="table">
             
@@ -83,43 +85,49 @@ $html = '
 foreach ($respuesta as $key) {
     $html .= '
             <tr>
-                <td colspan="1" class="fecha_registro">
+                <td class="fecha_registro">
                     ' .$key[codigo_titulo] . '
                 </td>
-                <td colspan="1" class="fecha_registro">
+                <td class="fecha_registro">
                     ' .$key[nombre_cuenta] . '
-                </td>
-                <td colspan="1" class="fecha_registro">
+                </td>esti
+                <td class="fecha_registro">
                     
                 </td>
-                <td colspan="1" class="fecha_registro">
+                <td class="fecha_registro">
                     
                 </td>
-                <td colspan="1" class="fecha_registro">
+                <td class="fecha_registro">
                     
                 </td>
-                <td colspan="1" class="fecha_registro" style="font-size: 8px;">
+                <td class="fecha_registro" style="font-size: 8px;">
+                    
+                </td>
+                <td class="fecha_registro" style="font-size: 8px;">
                     
                 </td>
             </tr>
             <tr>
-                <td class="estilo_celda fondo_gris_titulo">
-                    Póliza
+                <td class="estilo_celda fondo_gris_titulo" style="text-align: right;">
+                    Fecha
                 </td>
-                <td class="estilo_celda fondo_gris_titulo">
+                <td class="estilo_celda fondo_gris_titulo" style="text-align: center;">
+                    No.Documento
+                </td>
+                <td class="estilo_celda fondo_gris_titulo" style="text-align: center;">
                     Centro de costo
                 </td>
                 <td class="estilo_celda fondo_gris_titulo" style="text-align: center;">
-                    Tipo
-                </td>
-                <td class="estilo_celda fondo_gris_titulo" style="text-align: center;">
-                    Fecha
+                    Póliza
                 </td>
                 <td class="estilo_celda fondo_gris_titulo centrar_texto">
                     DEBE
                 </td>
                 <td class="estilo_celda fondo_gris_titulo centrar_texto">
                     HABER
+                </td>
+                <td class="estilo_celda fondo_gris_titulo centrar_texto">
+                    SALDO
                 </td>
             </tr>';
 
@@ -142,25 +150,30 @@ foreach ($respuesta as $key) {
 
         $html .= '
             <tr>
-                <td class="estilo_celda" style="width: 20%">
-                    ' . $cuentas_[numero_documento] . ' 
+                <td class="estilo_celda" style="width: 20%;text-align: right;">
+                    ' . date('d/m/Y', strtotime($cuentas_[fecha])) . ' 
                 </td>
-                <td class="estilo_celda" style="width: 30%">
-                    ' . $cuentas_[centro_de_costo] . ' 
+                <td class="estilo_celda" style="width: 10%;text-align: center;">
+                    
+                    ' . $cuentas_[numero_documento] . ' 
+                    
                 </td>
                 <td class="estilo_celda" style="text-align: center;width: 15%">
+                    
+                    ' . $cuentas_[centro_de_costo] . ' 
+                </td>
+                <td class="estilo_celda" style="width: 10%;text-align: center;">
                     '. $nombre_poliza_ .'
                 </td>
-                <td class="estilo_celda" style="width: 10%;text-align: center;">
-                    ' . $cuentas_[fecha] . ' 
-                </td>
-                <td class="estilo_celda" style="width: 10%;text-align: center;">
+                <td class="estilo_celda" style="width: 15%;text-align: center;">
                     ' . $_debe . ' 
                 </td>
                 <td class="estilo_celda" style="text-align: center;width: 15%;">
                     ' . $_haber . ' 
                 </td>
+                <td class="estilo_celda" style="text-align: center;width: 15%;">
 
+                </td>
             </tr>
         ';
 
@@ -184,10 +197,12 @@ foreach ($respuesta as $key) {
         </td>
         <td class="estilo_celda fondo_gris_titulo" style="text-align: center">Q' . number_format($sumatoria_debe, 2, '.', ',') . '</td>
         <td class="estilo_celda fondo_gris_titulo" style="text-align: center" >Q' . number_format($sumatoria_haber, 2, '.', ',') . '</td>
+        <td class="estilo_celda fondo_gris_titulo" style="text-align: center" ></td>
     </tr>
 
     <tr>
         <td class="estilo_celda" style="height: 20px;"></td>
+        <td class="estilo_celda"></td>
         <td class="estilo_celda"></td>
         <td class="estilo_celda"></td>
         <td class="estilo_celda"></td>
