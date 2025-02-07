@@ -181,6 +181,21 @@ foreach ($respuesta as $key) {
     </tr>
     <?php
 }
+
+
+$html .= '
+
+     <tr>
+        <td class="estilo_celda" style="height: 20px;"></td>
+        <td class="estilo_celda"></td>
+        <td class="estilo_celda"></td>
+        <td class="estilo_celda">GRAN TOTAL</td>
+        <td class="estilo_celda">Q'. number_format($gran_suma_debe, 2, '.', ',')  .'</td>
+        <td class="estilo_celda">Q'. number_format($gran_suma_haber, 2, '.', ',') .'</td>
+        <td class="estilo_celda"></td>
+    </tr>
+';
+
 ?>
 </table>
 <?php
