@@ -317,7 +317,7 @@ foreach ($respuesta as $key) {
         <td class="estilo_celda" style="text-align: center;font-weight: bold;font-size: 15px;">GRAN TOTAL</td>
         <td class="estilo_celda" style="text-align: center;font-weight: bold;font-size: 15px;">Q'. number_format($gran_suma_debe, 2, '.', ',')  .'</td>
         <td class="estilo_celda" style="text-align: center;font-weight: bold;font-size: 15px;">Q'. number_format($gran_suma_haber, 2, '.', ',') .'</td>
-        <td class="estilo_celda" style="text-align: center;font-weight: bold;font-size: 15px;>Q'. number_format($gran_total, 2, '.', ',') .'</td>
+        <td class="estilo_celda" style="text-align: center;font-weight: bold;font-size: 15px;">Q'. number_format($gran_total, 2, '.', ',') .'</td>
     </tr>
 ';
 
