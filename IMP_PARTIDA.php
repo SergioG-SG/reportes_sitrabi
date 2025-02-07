@@ -136,7 +136,7 @@ $html = '
             COOPERATIVA SITRABI, R.L.
         </div>
         <div class="titulo">
-            Reporte de partidas de Diario <br> CC: '. $nombre_centro_de_costo .' ** Poliza: '. $cabecera[data][0][attributes][poliza] .'
+            Reporte de partidas de Diario <br> CC: '. $nombre_centro_de_costo .' ** Poliza: '. convertir_nombre_poliza($polizas_,$cabecera[data][0][attributes][poliza]) .'
         </div>
         <table class="table">
 
