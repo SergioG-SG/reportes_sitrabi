@@ -44,6 +44,7 @@ $respuesta = json_decode(@file_get_contents($url, false, $contexto), true);
 
 $gran_suma_debe = 0;
 $gran_suma_haber = 0;
+$gran_total = $gran_suma_debe - $gran_suma_haber;
 
 // OBTENER NOMBRES DE POLIZAS
 
@@ -282,7 +283,7 @@ foreach ($respuesta as $key) {
 
     $gran_suma_debe += $sumatoria_debe;
     $gran_suma_haber += $sumatoria_haber;
-    $gran_total = $gran_suma_debe - $gran_suma_haber;
+    
 
 
     $html .= '
@@ -311,6 +312,22 @@ foreach ($respuesta as $key) {
     </tr>
 ';
 
+// $html .= '
+
+//      <tr>
+//         <td class="estilo_celda" style="height: 20px;"></td>
+//         <td class="estilo_celda"></td>
+//         <td class="estilo_celda"></td>
+//         <td class="estilo_celda">GRAN TOTAL</td>
+//         <td class="estilo_celda">Q'. number_format($gran_suma_debe, 2, '.', ',')  .'</td>
+//         <td class="estilo_celda">Q'. number_format($gran_suma_haber, 2, '.', ',') .'</td>
+//         <td class="estilo_celda"></td>
+//     </tr>
+// ';
+
+
+
+}
 
 $html .= '
 
@@ -318,10 +335,10 @@ $html .= '
             <td class="estilo_celda" style="height: 20px;"></td>
             <td class="estilo_celda"></td>
             <td class="estilo_celda"></td>
-            <td class="estilo_celda" style="font-size: 14px;font-weight: bold;">GRAN TOTAL</td>
-            <td class="estilo_celda" style="font-size: 14px;font-weight: bold;">Q'. number_format($gran_suma_debe, 2, '.', ',')  .'</td>
-            <td class="estilo_celda" style="font-size: 14px;font-weight: bold;">Q'. number_format($gran_suma_haber, 2, '.', ',') .'</td>
-            <td class="estilo_celda" style="font-size: 14px;font-weight: bold;"></td>
+            <td class="estilo_celda">GRAN TOTAL</td>
+            <td class="estilo_celda">Q'. number_format($gran_suma_debe, 2, '.', ',')  .'</td>
+            <td class="estilo_celda">Q'. number_format($gran_suma_haber, 2, '.', ',') .'</td>
+            <td class="estilo_celda"></td>
         </tr>
 
         </table>
