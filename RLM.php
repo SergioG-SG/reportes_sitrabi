@@ -1,4 +1,5 @@
 <?php
+set_time_limit(120);
 
 date_default_timezone_set('America/Guatemala');
 
@@ -15,14 +16,17 @@ require_once('mpdf/mpdf.php');
 
 $fecha_inicial = $_GET['fecha_inicial'];
 $fecha_final = $_GET['fecha_final'];
-$centro_de_costo = 0;
+$centro_de_costo = $_GET['cc'];
+$tipo_de_poliza = $_GET['tp'];
+$cod_cuenta = $_GET['cuenta'];
+$empresa = $_GET['emp'];
 $token = $_GET['token'];
 $env = $_GET['env'];
 
 
 //OBTENER ARBOL DE CUENTAS
 
-$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transacciones/c/libro_mayor?fecha_inicial=". $fecha_inicial ."&fecha_final=" . $fecha_final : "http://100.78.93.50:8009/api/contabilidad-transacciones/c/libro_mayor?fecha_inicial=". $fecha_inicial ."&fecha_final=" . $fecha_final;
+$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transacciones/c/libro_mayor?fecha_inicial=". $fecha_inicial ."&fecha_final=" . $fecha_final ."&centro_de_costo=" . $centro_de_costo ."&tipo_de_poliza=". $tipo_de_poliza ."&empresa=". $empresa : "http://100.78.93.50:8009/api/contabilidad-transacciones/c/libro_mayor?fecha_inicial=". $fecha_inicial ."&fecha_final=" . $fecha_final ."&centro_de_costo=" . $centro_de_costo ."&tipo_de_poliza=". $tipo_de_poliza ."&empresa=". $empresa . "&cuenta=" . $cod_cuenta;
 
 
 // OBTENER CATALOGO DE CUENTAS
@@ -38,8 +42,8 @@ $contexto = stream_context_create($opciones);
 $respuesta = json_decode(@file_get_contents($url, false, $contexto), true);
 
 
-$suma_debe = 0;
-$suma_haber = 0;
+$gran_suma_debe = 0;
+$gran_suma_haber = 0;
 
 // OBTENER NOMBRES DE POLIZAS
 
@@ -104,7 +108,7 @@ foreach ($respuesta as $key) {
                     
                 </td>
                 <td class="fecha_registro" style="font-size: 8px;">
-                    
+
                 </td>
             </tr>
             <tr>
@@ -133,56 +137,151 @@ foreach ($respuesta as $key) {
 
     $sumatoria_debe = 0;
     $sumatoria_haber = 0;
+    
+    
+    foreach ($key[registros_por_fecha] as $cuentas_) {
         
+        
+        $sumatoria_saldo_actual = 0;
+        $saldo_actual = 0;
+        
+        foreach ($cuentas_[registros] as $regs_) {
 
-    foreach ($key[cuentas] as $cuentas_) {
 
-        if ($cuentas_[monto] > 0) {
-            $_debe = 'Q' . number_format($cuentas_[monto], 2, '.', ',');
-            $_haber = '';
-        } else {
-            $_debe = '';
-            $_haber = 'Q' . number_format(($cuentas_[monto] * -1), 2, '.', ',');
+            if ($regs_[monto] > 0) {
+                $_debe_crudo = $regs_[monto];
+                $_haber_crudo = 0;
+                $_debe = 'Q' . number_format($regs_[monto], 2, '.', ',');
+                $_haber = '';
+            } else {
+                $_debe_crudo = 0;
+                $_haber_crudo = $regs_[monto] * -1;
+                $_debe = '';
+                $_haber = 'Q' . number_format(($regs_[monto] * -1), 2, '.', ',');
+            }
+    
+    
+            $nombre_poliza_ = buscar_nombre_poliza($respuesta2[data], $regs_[poliza]);
+            $saldo_actual = $_debe_crudo - $_haber_crudo;
+
+            $html .= '
+                <tr>
+                    <td class="estilo_celda" style="width: 20%;text-align: right;">
+                        ' . date('d/m/Y', strtotime($regs_[fecha])) . ' 
+                    </td>
+                    <td class="estilo_celda" style="width: 10%;text-align: center;">
+                        ' . $regs_[numero_documento] . ' 
+                    </td>
+                    <td class="estilo_celda" style="text-align: center;width: 15%">
+                        ' . $regs_[centro_de_costo] . ' 
+                    </td>
+                    <td class="estilo_celda" style="width: 10%;text-align: center;">
+                        '. $nombre_poliza_ .'
+                    </td>
+                    <td class="estilo_celda" style="width: 15%;text-align: center;">
+                        ' . $_debe . ' 
+                    </td>
+                    <td class="estilo_celda" style="text-align: center;width: 15%;">
+                        ' . $_haber . ' 
+                    </td>
+                    <td class="estilo_celda" style="text-align: center;width: 15%;">
+                        Q' . number_format($saldo_actual, 2, '.', ',') . '
+                    </td>
+                </tr>
+                
+            ';
+
+           
+            if ($regs_[monto] > 0) {
+                $sumatoria_debe += $regs_[monto];
+            } else {
+                $sumatoria_haber += ($regs_[monto] * -1);
+            }
+
+
+            $sumatoria_saldo_actual += $saldo_actual;
+
         }
-
-
-        $nombre_poliza_ = buscar_nombre_poliza($respuesta2[data], $cuentas_[poliza]);
 
         $html .= '
-            <tr>
-                <td class="estilo_celda" style="width: 20%;text-align: right;">
-                    ' . date('d/m/Y', strtotime($cuentas_[fecha])) . ' 
-                </td>
-                <td class="estilo_celda" style="width: 10%;text-align: center;">
-                    
-                    ' . $cuentas_[numero_documento] . ' 
-                    
-                </td>
-                <td class="estilo_celda" style="text-align: center;width: 15%">
-                    
-                    ' . $cuentas_[centro_de_costo] . ' 
-                </td>
-                <td class="estilo_celda" style="width: 10%;text-align: center;">
-                    '. $nombre_poliza_ .'
-                </td>
-                <td class="estilo_celda" style="width: 15%;text-align: center;">
-                    ' . $_debe . ' 
-                </td>
-                <td class="estilo_celda" style="text-align: center;width: 15%;">
-                    ' . $_haber . ' 
-                </td>
-                <td class="estilo_celda" style="text-align: center;width: 15%;">
+        <tr>
+                <td>
 
+                </td>
+                <td>
+                    
+                </td>
+                <td >
+                    
+                </td>
+                <td >
+
+                </td>
+                <td style="border-bottom: 1px solid #e9e9e9;">
+                    
+                </td>
+                <td style="border-bottom: 1px solid #e9e9e9;">
+                
+                </td>
+                <td style="border-bottom: 1px solid #e9e9e9;">
+                    
                 </td>
             </tr>
+            <tr>
+                <td class="estilo_celda fondo_gris_titulo">
+                    TOTAL DEL DIA:
+                </td>
+                <td>
+                    
+                </td>
+                <td >
+                    
+                </td>
+                <td >
+
+                </td>
+                <td class="estilo_celda" style="text-align: center;font-weight: bold;font-size:12px;">
+                    Q'.  number_format($cuentas_[sub_suma_debe], 2, '.', ',') .'
+                </td>
+                <td class="estilo_celda" style="text-align: center;font-weight: bold;font-size:12px;">
+                    Q'.  number_format($cuentas_[sub_suma_haber], 2, '.', ',') .'
+                </td>
+                <td class="estilo_celda" style="text-align: center;font-weight: bold;font-size:12px;">
+                    Q('.  number_format($sumatoria_saldo_actual, 2, '.', ',') .')
+                </td>
+            </tr>
+             <tr>
+                <td style="height: 20px;">
+                </td>
+                <td>
+                    
+                </td>
+                <td >
+                    
+                </td>
+                <td >
+
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+
         ';
 
-        if ($cuentas_[monto] > 0) {
-            $sumatoria_debe += $cuentas_[monto];
-        } else {
-            $sumatoria_haber += ($cuentas_[monto] * -1);
-        }
+
+       
     }
+
+
+    $gran_suma_debe += $sumatoria_debe;
+    $gran_suma_haber += $sumatoria_haber;
 
 
     $html .= '
@@ -209,7 +308,20 @@ foreach ($respuesta as $key) {
         <td class="estilo_celda"></td>
         <td class="estilo_celda"></td>
     </tr>
+
+    <tr>
+        <td class="estilo_celda" style="height: 20px;"></td>
+        <td class="estilo_celda"></td>
+        <td class="estilo_celda"></td>
+        <td class="estilo_celda" style="text-align: center;">GRAN TOTAL</td>
+        <td class="estilo_celda" style="text-align: center;">Q'. number_format($gran_suma_debe, 2, '.', ',')  .'</td>
+        <td class="estilo_celda" style="text-align: center;">Q'. number_format($gran_suma_haber, 2, '.', ',') .'</td>
+        <td class="estilo_celda"></td>
+    </tr>
 ';
+
+
+
 
 }
 
