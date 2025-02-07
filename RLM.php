@@ -166,7 +166,7 @@ foreach ($respuesta as $key) {
 
             $html .= '
                 <tr>
-                    <td class="estilo_celda" style="width: 20%;text-align: right;">
+                    <td class="estilo_celda" style="width: 20%;">
                         ' . date('d/m/Y', strtotime($regs_[fecha])) . ' 
                     </td>
                     <td class="estilo_celda" style="width: 10%;text-align: center;">
@@ -282,6 +282,7 @@ foreach ($respuesta as $key) {
 
     $gran_suma_debe += $sumatoria_debe;
     $gran_suma_haber += $sumatoria_haber;
+    $gran_total = $gran_suma_debe - $gran_suma_haber;
 
 
     $html .= '
@@ -316,7 +317,7 @@ foreach ($respuesta as $key) {
         <td class="estilo_celda" style="text-align: center;">GRAN TOTAL</td>
         <td class="estilo_celda" style="text-align: center;">Q'. number_format($gran_suma_debe, 2, '.', ',')  .'</td>
         <td class="estilo_celda" style="text-align: center;">Q'. number_format($gran_suma_haber, 2, '.', ',') .'</td>
-        <td class="estilo_celda"></td>
+        <td class="estilo_celda">Q'. number_format($gran_total, 2, '.', ',') .'</td>
     </tr>
 ';
 
