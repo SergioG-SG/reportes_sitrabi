@@ -23,6 +23,7 @@ $url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabi
 $url4 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-tipo-de-polizas" : "http://100.78.93.50:8009/api/contabilidad-tipo-de-polizas";
 
 
+
 // $data = array(
 //     "data" => array(
 //         "fecha_inicial" => $fecha_inicial,
@@ -57,10 +58,6 @@ $opciones2 = array('http' => array(
 
 $contexto2 = stream_context_create($opciones2);
 $cabecera = json_decode(@file_get_contents($url2, false, $contexto2), true);
-
-
-// print_r($cabecera[data][0][attributes][poliza]);
-// die();
 
 
 // DETALLE DE LA POLIZA
@@ -117,8 +114,21 @@ function obtener_nombre_cuenta($codigo, $token, $empresa, $env){
 }
 
 
+// NOMBRES CENTRO DE COSTO
+
+$url5 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/centros-de-costos/c/nombre/" . $cabecera[data][0][attributes][centro_de_costo] : "http://100.78.93.50:8009/api/centros-de-costos/c/nombre/" . $cabecera[data][0][attributes][centro_de_costo];
 
 
+$opciones5 = array('http' => array(
+    'method' => 'GET',
+    'header' => 'Authorization: Bearer ' . $token,
+    'timeout' => 10
+));
+
+$contexto5 = stream_context_create($opciones5);
+$ccostos = json_decode(@file_get_contents($url5, false, $contexto5), true);
+
+$nombre_centro_de_costo = $ccostos[0][nombre]; 
 
 $html = '
         
@@ -126,7 +136,7 @@ $html = '
             COOPERATIVA SITRABI, R.L.
         </div>
         <div class="titulo">
-            POLIZA
+            Reporte de partidas de Diario <br> CC: '. $nombre_centro_de_costo .' ** Poliza: '. $cabecera[data][0][attributes][poliza] .'
         </div>
         <table class="table">
 

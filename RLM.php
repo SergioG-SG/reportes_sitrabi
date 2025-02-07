@@ -338,7 +338,7 @@ $html .= '
             <td class="estilo_celda" style="font-size: 12px;font-weight: bold;text-align: center;">TOTAL GENERAL</td>
             <td class="estilo_celda" style="font-size: 12px;font-weight: bold;text-align: center;">Q'. number_format($gran_suma_debe, 2, '.', ',')  .'</td>
             <td class="estilo_celda" style="font-size: 12px;font-weight: bold;text-align: center;">Q'. number_format($gran_suma_haber, 2, '.', ',') .'</td>
-            <td class="estilo_celda" style="font-size: 12px;font-weight: bold;text-align: center;">Q'. number_format($gran_total, 2, '.', ',') .'</td>
+            <td class="estilo_celda" style="font-size: 12px;font-weight: bold;text-align: center;">Q'. number_format(($gran_suma_debe - $gran_suma_haber), 2, '.', ',') .'</td>
         </tr>
 
         </table>
