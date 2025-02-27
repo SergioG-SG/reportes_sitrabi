@@ -81,7 +81,8 @@
 }
 
 .estilo_celda {
-    font-family: 'Courier New', Courier, monospace;
+    /* font-family: 'Courier New', Courier, monospace; */
+    font-family: 'Helvetica', sans-serif;
     font-size: 10px;
     font-style: normal;
 }
@@ -124,6 +125,10 @@
 
 .centrar_texto {
     text-align: center;
+}
+
+.texto_derecha {
+    text-align: right;
 }
 
 .tabla_titulo {

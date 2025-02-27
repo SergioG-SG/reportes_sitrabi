@@ -84,10 +84,10 @@ function imprimirDatos($filas, $level = 0)
     $html = '';
     foreach ($filas as $item) {
 
-        $saldo_anterior = $item[saldo_anterior] == 0 ? '' :  'Q' . number_format($item[saldo_anterior], 2, '.', ',');
-        $debe = $item[debe] == 0 ? '' :  'Q' . number_format($item[debe], 2, '.', ',');
-        $haber = $item[haber] == 0 ? '' :  'Q' . number_format($item[haber], 2, '.', ',');
-        $saldo_final = $item[saldo_final] == 0 ? '' :  'Q' . number_format($item[saldo_final], 2, '.', ',');
+        $saldo_anterior = $item[saldo_anterior] == 0 ? '' : number_format($item[saldo_anterior], 2, '.', ',');
+        $debe = $item[debe] == 0 ? '' : number_format($item[debe], 2, '.', ',');
+        $haber = $item[haber] == 0 ? '' : number_format($item[haber], 2, '.', ',');
+        $saldo_final = $item[saldo_final] == 0 ? '' : number_format($item[saldo_final], 2, '.', ',');
 
         global $suma_debe, $suma_haber;
 
@@ -101,10 +101,10 @@ function imprimirDatos($filas, $level = 0)
             $html .= '<tr>';
             $html .= '<td class="estilo_celda2 fondo_gris_titulo estilo_bold">' . $item['codigo'] . '</td>';
             $html .= '<td class="estilo_celda fondo_gris_titulo estilo_bold">' . $item['nombre_cuenta'] . '</td>';
-            $html .= '<td class="estilo_celda fondo_gris_titulo estilo_bold centrar_texto">' . $saldo_anterior . '</td>';
-            $html .= '<td class="estilo_celda fondo_gris_titulo estilo_bold centrar_texto">' . $debe . '</td>';
-            $html .= '<td class="estilo_celda fondo_gris_titulo estilo_bold centrar_texto">' . $haber . '</td>';
-            $html .= '<td class="estilo_celda fondo_gris_titulo estilo_bold centrar_texto">' . $saldo_final . '</td>';
+            $html .= '<td class="estilo_celda fondo_gris_titulo estilo_bold texto_derecha">' . $saldo_anterior . '</td>';
+            $html .= '<td class="estilo_celda fondo_gris_titulo estilo_bold texto_derecha">' . $debe . '</td>';
+            $html .= '<td class="estilo_celda fondo_gris_titulo estilo_bold texto_derecha">' . $haber . '</td>';
+            $html .= '<td class="estilo_celda fondo_gris_titulo estilo_bold texto_derecha">' . $saldo_final . '</td>';
             $html .= '</tr>';
         } else {
 
@@ -112,10 +112,10 @@ function imprimirDatos($filas, $level = 0)
             $html .= '<tr>';
             $html .= '<td class="estilo_celda2">' . $item['codigo'] . '</td>';
             $html .= '<td class="estilo_celda">' . $item['nombre_cuenta'] . '</td>';
-            $html .= '<td class="estilo_celda centrar_texto">' . $saldo_anterior . '</td>';
-            $html .= '<td class="estilo_celda centrar_texto">' . $debe . '</td>';
-            $html .= '<td class="estilo_celda centrar_texto">' . $haber . '</td>';
-            $html .= '<td class="estilo_celda centrar_texto">' . $saldo_final . '</td>';
+            $html .= '<td class="estilo_celda texto_derecha">' . $saldo_anterior . '</td>';
+            $html .= '<td class="estilo_celda texto_derecha">' . $debe . '</td>';
+            $html .= '<td class="estilo_celda texto_derecha">' . $haber . '</td>';
+            $html .= '<td class="estilo_celda texto_derecha">' . $saldo_final . '</td>';
             $html .= '</tr>';
         }
 
@@ -177,17 +177,17 @@ $html .= '
                     <td class="estilo_celda" style="width: 35%; text-align: left !important;">
                         
                     </td>
-                    <td class="estilo_celda centrar_texto" style="width: 12.5%;border-top: 1px solid #000;">
-                        Q0.00
+                    <td class="estilo_celda texto_derecha" style="width: 12.5%;border-top: 1px solid #000;">
+                        0.00
                     </td>
-                    <td class="estilo_celda centrar_texto" style="width: 12.5%;border-top: 1px solid #000;">
-                        Q' . number_format($suma_debe, 2, '.', ',') . '
+                    <td class="estilo_celda texto_derecha" style="width: 12.5%;border-top: 1px solid #000;">
+                        ' . number_format($suma_debe, 2, '.', ',') . '
                     </td>
-                    <td class="estilo_celda centrar_texto" style="width: 12.5%;border-top: 1px solid #000;">
-                        Q' . number_format($suma_haber, 2, '.', ',') . '
+                    <td class="estilo_celda texto_derecha" style="width: 12.5%;border-top: 1px solid #000;">
+                        ' . number_format($suma_haber, 2, '.', ',') . '
                     </td>
-                    <td class="estilo_celda centrar_texto" style="width: 12.5%;border-top: 1px solid #000;">
-                        Q0.00
+                    <td class="estilo_celda texto_derecha" style="width: 12.5%;border-top: 1px solid #000;">
+                        0.00
                     </td>
                 </tr>
             ';
