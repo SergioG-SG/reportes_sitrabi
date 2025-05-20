@@ -30,10 +30,11 @@ $url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabil
 $opciones = array('http' => array(
     'method' => 'GET',
     'header' => 'Authorization: Bearer ' . $token,
+    'timeout' => 10
 ));
 
 $contexto = stream_context_create($opciones);
-$respuesta = json_decode(file_get_contents($url, false, $contexto), true);
+$respuesta = json_decode(@file_get_contents($url, false, $contexto), true);
 
 
 $suma_debe = 0;
@@ -47,10 +48,11 @@ $url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabi
 $opciones2 = array('http' => array(
     'method' => 'GET',
     'header' => 'Authorization: Bearer ' . $token,
+    'timeout' => 10
 ));
 
 $contexto2 = stream_context_create($opciones2);
-$respuesta2 = json_decode(file_get_contents($url2, false, $contexto2), true);
+$respuesta2 = json_decode(@file_get_contents($url2, false, $contexto2), true);
 
 
 
