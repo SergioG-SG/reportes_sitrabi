@@ -149,7 +149,7 @@ $listado = [
         "codigo_formateado" => 0,
         "cuenta" => "seccion estacion",
         "tipo" => "titulo",
-        "posicion" => 2,
+        "posicion" => 1,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
@@ -171,7 +171,7 @@ $listado = [
         "codigo_formateado" => "6.13.1.01.01",
         "cuenta" => "VENTAS COMBUSTIBLE AL CONTADO ASOCIADO",
         "tipo" => "titulo",
-        "posicion" => 1,
+        "posicion" => 2,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
@@ -716,7 +716,7 @@ $listado = [
         "sub_total_col_3" => 0
     ]
 ];
-
+// ventas
 $listado[23]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7131010101')['saldo_final'] +
 
 
