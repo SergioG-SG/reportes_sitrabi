@@ -19,19 +19,20 @@ $fecha_final = $_GET['fecha_final'];
 $centro_de_costo = 0;
 $token = $_GET['token'];
 $env = $_GET['env'];
+$ip = '192.168.10.14';
 
 
 //OBTENER ARBOL DE CUENTAS
 
-$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos" : "http://100.78.93.50:8009/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos";
+$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos" : "http://". $ip .":8009/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos";
 
-$url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/centros-de-costos/c/nombre/" . $centro_de_costo : "http://100.78.93.50:8009/api/centros-de-costos/c/nombre/" . $centro_de_costo;
+$url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/centros-de-costos/c/nombre/" . $centro_de_costo : "http://". $ip .":8009/api/centros-de-costos/c/nombre/" . $centro_de_costo;
 
 
 // consulta al gparametros para traer el saldo final que se guarda manualmente // tiene un 0 al final porque es el centro de costo que pide pero que se ha desabilitado
-// $url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/parametros/0" : "http://100.78.93.50:8009/api/gparametros/c/parametros/0";
+// $url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/parametros/0" : "http://". $ip .":8009/api/gparametros/c/parametros/0";
 
-$url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/inventario_por_trimestre/" . $fecha_final : "http://100.78.93.50:8009/api/gparametros/c/inventario_por_trimestre/" . $fecha_final;
+$url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/inventario_por_trimestre/" . $fecha_final : "http://". $ip .":8009/api/gparametros/c/inventario_por_trimestre/" . $fecha_final;
 
 
 $data = array(
@@ -258,8 +259,8 @@ $listado = [
         "codigo" => 7131019903,
         "codigo_formateado" => "7.13.1.01.99.03",
         "cuenta" => "iva costo",
-        "tipo" => "espacio",
-        "posicion" => 1,
+        "tipo" => "cuenta",
+        "posicion" => 2,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
@@ -269,8 +270,8 @@ $listado = [
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "SUB-TOTAL",
-        "tipo" => "cuenta",
-        "posicion" => 1,
+        "tipo" => "espacio",
+        "posicion" => 2,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
@@ -281,7 +282,7 @@ $listado = [
         "codigo_formateado" => "7.13.1.01.01.05",
         "cuenta" => "devoluciones y rebajas sobre compras",
         "tipo" => "cuenta",
-        "posicion" => 1,
+        "posicion" => 2,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
@@ -291,8 +292,8 @@ $listado = [
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "SUB-TOTAL",
-        "tipo" => "cuenta",
-        "posicion" => 1,
+        "tipo" => "espacio",
+        "posicion" => 2,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
@@ -303,51 +304,51 @@ $listado = [
         "codigo_formateado" => "1.13.1.06.01.01",
         "cuenta" => "INVENTARIOS DE MERCADERÍA ( COMPRAS)",
         "tipo" => "cuenta",
-        "posicion" => 1,
+        "posicion" => 2,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
     ],
     [
         "pos" => 15,
-        "codigo" => 1131060105,
-        "codigo_formateado" => "1.13.1.06.01.05",
-        "cuenta" => "INVENTARIO DE COMBUSTIBLE GASOLINA REGULAR",
-        "tipo" => "titulo",
-        "posicion" => 1,
+        "codigo" => 0,
+        "codigo_formateado" => "0",
+        "cuenta" => "Total combustible disponible",
+        "tipo" => "espacio",
+        "posicion" => 2,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
     ],
     [
         "pos" => 16,
-        "codigo" => 1131060106,
-        "codigo_formateado" => "1.13.1.06.01.06",
-        "cuenta" => "INVENTARIO DE COMBUSTIBLE GASOLINA SUPER",
-        "tipo" => "espacio",
-        "posicion" => 1,
+        "codigo" => 1131060105,
+        "codigo_formateado" => "1.13.1.06.01.05",
+        "cuenta" => "INVENTARIO DE COMBUSTIBLE GASOLINA REGULAR",
+        "tipo" => "cuenta",
+        "posicion" => 2,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
     ],
     [
         "pos" => 17,
-        "codigo" => 1131060107,
-        "codigo_formateado" => "1.13.1.06.01.07",
-        "cuenta" => "INVENTARIO DE COMBUSTIBLE DIESEL",
-        "tipo" => "espacio",
-        "posicion" => 1,
+        "codigo" => 1131060106,
+        "codigo_formateado" => "1.13.1.06.01.06",
+        "cuenta" => "INVENTARIO DE COMBUSTIBLE GASOLINA SUPER",
+        "tipo" => "cuenta",
+        "posicion" => 2,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
     ],
     [
         "pos" => 18,
-        "codigo" => 5131010101,
-        "codigo_formateado" => "5.13.1.01.01.01",
-        "cuenta" => "excedente bruto en ventas",
-        "tipo" => "espacio",
-        "posicion" => 1,
+        "codigo" => 1131060107,
+        "codigo_formateado" => "1.13.1.06.01.07",
+        "cuenta" => "INVENTARIO DE COMBUSTIBLE DIESEL",
+        "tipo" => "cuenta",
+        "posicion" => 2,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
@@ -355,10 +356,10 @@ $listado = [
     [
         "pos" => 19,
         "codigo" => 0,
-        "codigo_formateado" => 0,
-        "cuenta" => "Total excedente",
+        "codigo_formateado" => "0",
+        "cuenta" => "excedente bruto en ventas",
         "tipo" => "espacio",
-        "posicion" => 1,
+        "posicion" => 3,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
@@ -367,9 +368,9 @@ $listado = [
         "pos" => 20,
         "codigo" => 0,
         "codigo_formateado" => 0,
-        "cuenta" => "gastos",
-        "tipo" => "cuenta",
-        "posicion" => 1,
+        "cuenta" => "TOTAL EXCEDENTE",
+        "tipo" => "espacio",
+        "posicion" => 3,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
@@ -378,8 +379,8 @@ $listado = [
         "pos" => 21,
         "codigo" => 0,
         "codigo_formateado" => 0,
-        "cuenta" => "seccion consumo",
-        "tipo" => "cuenta",
+        "cuenta" => "GASTOS",
+        "tipo" => "titulo",
         "posicion" => 1,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
@@ -389,8 +390,8 @@ $listado = [
         "pos" => 22,
         "codigo" => 0,
         "codigo_formateado" => 0,
-        "cuenta" => "sueldos",
-        "tipo" => "cuenta",
+        "cuenta" => "SECCION CONSUMO",
+        "tipo" => "titulo",
         "posicion" => 1,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
@@ -398,6 +399,17 @@ $listado = [
     ],
     [
         "pos" => 23,
+        "codigo" => 0,
+        "codigo_formateado" => 0,
+        "cuenta" => "SUELDOS",
+        "tipo" => "espacio",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 24,
         "codigo" => 7171030101,
         "codigo_formateado" => "7.17.1.03.01.01",
         "cuenta" => "SUELDOS PERMANENTES",
@@ -408,7 +420,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 24,
+        "pos" => 25,
         "codigo" => 7171030402,
         "codigo_formateado" => "7.17.1.03.04.02",
         "cuenta" => "bonificaciones",
@@ -419,7 +431,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 25,
+        "pos" => 26,
         "codigo" => 7171030401,
         "codigo_formateado" => "7.17.1.03.04.01",
         "cuenta" => "bonificacion incentivo",
@@ -430,18 +442,18 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 26,
+        "pos" => 27,
         "codigo" => 0,
         "codigo_formateado" => 0,
-        "cuenta" => "prestaciones laborales",
-        "tipo" => "espacio",
+        "cuenta" => "PRESTAMOS LABORALES",
+        "tipo" => "titulo",
         "posicion" => 1,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 27,
+        "pos" => 28,
         "codigo" => 7171030501,
         "codigo_formateado" => "7.17.1.03.05.01",
         "cuenta" => "cuenta patronal igss",
@@ -452,18 +464,18 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 28,
+        "pos" => 29,
         "codigo" => 0,
         "codigo_formateado" => 0,
-        "cuenta" => "reparaciones y accesorios",
-        "tipo" => "espacio",
+        "cuenta" => "REPARACIONES Y ACCESORIOS",
+        "tipo" => "titulo",
         "posicion" => 1,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 29,
+        "pos" => 30,
         "codigo" => 7171060203,
         "codigo_formateado" => "7.17.1.06.02.03",
         "cuenta" => "reparacion de vehiculos",
@@ -474,7 +486,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 30,
+        "pos" => 31,
         "codigo" => 7171060301,
         "codigo_formateado" => "7.17.1.06.03.01",
         "cuenta" => "repaciones de herramientas",
@@ -485,10 +497,10 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 31,
+        "pos" => 32,
         "codigo" => 0,
         "codigo_formateado" => 0,
-        "cuenta" => "gastos de administracion",
+        "cuenta" => "GASTOS DE ADMINSITRACION",
         "tipo" => "titulo",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -496,7 +508,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 32,
+        "pos" => 33,
         "codigo" => 7171060301,
         "codigo_formateado" => "7.17.1.06.03.01",
         "cuenta" => "calibracion de bombas de combustible",
@@ -507,7 +519,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 33,
+        "pos" => 34,
         "codigo" => 7171060303,
         "codigo_formateado" => "7.17.1.06.03.03",
         "cuenta" => "reparacion de bombas de combustible",
@@ -518,7 +530,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 34,
+        "pos" => 35,
         "codigo" => 7171060304,
         "codigo_formateado" => "7.17.1.06.03.04",
         "cuenta" => "mermas de combustible",
@@ -529,7 +541,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 35,
+        "pos" => 36,
         "codigo" => 7171110101,
         "codigo_formateado" => "7.17.1.11.01.01",
         "cuenta" => "papelerias y útiles de oficina",
@@ -540,7 +552,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 36,
+        "pos" => 37,
         "codigo" => 7171100301,
         "codigo_formateado" => "7.17.1.10.03.01",
         "cuenta" => "servicio de telecomunicaciones",
@@ -551,7 +563,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 37,
+        "pos" => 38,
         "codigo" => 7171100201,
         "codigo_formateado" => "7.17.1.10.02.01",
         "cuenta" => "energia electrica",
@@ -562,7 +574,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 38,
+        "pos" => 39,
         "codigo" => 7171100101,
         "codigo_formateado" => "7.17.1.10.01.01",
         "cuenta" => "servicio de seguridad",
@@ -573,7 +585,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 39,
+        "pos" => 40,
         "codigo" => 7171100402,
         "codigo_formateado" => "7.17.1.10.04.02",
         "cuenta" => "accesorios para computadoras",
@@ -584,7 +596,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 40,
+        "pos" => 41,
         "codigo" => 7171100403,
         "codigo_formateado" => "7.17.1.10.04.03",
         "cuenta" => "varios e imprevistos",
@@ -595,10 +607,10 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 41,
+        "pos" => 42,
         "codigo" => 0,
         "codigo_formateado" => 0,
-        "cuenta" => "espacio",
+        "cuenta" => "",
         "tipo" => "espacio",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -606,7 +618,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 42,
+        "pos" => 43,
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "gastos de operacion",
@@ -617,7 +629,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 43,
+        "pos" => 44,
         "codigo" => 7171020201,
         "codigo_formateado" => "7.17.1.02.02.01",
         "cuenta" => "viaticos",
@@ -628,7 +640,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 44,
+        "pos" => 45,
         "codigo" => 7171100404,
         "codigo_formateado" => "7.17.1.10.04.04",
         "cuenta" => "fletes",
@@ -639,7 +651,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 45,
+        "pos" => 46,
         "codigo" => 7171100406,
         "codigo_formateado" => "7.17.1.10.04.06",
         "cuenta" => "combustibles y lubricantes",
@@ -650,7 +662,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 46,
+        "pos" => 47,
         "codigo" => 7171040201,
         "codigo_formateado" => "7.17.1.04.02.01",
         "cuenta" => "impuestos y arbitrios fiscales",
@@ -661,7 +673,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 47,
+        "pos" => 48,
         "codigo" => 7171040101,
         "codigo_formateado" => "7.17.1.04.01.01",
         "cuenta" => "ipmuestos derivados del petroleo",
@@ -672,7 +684,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 48,
+        "pos" => 49,
         "codigo" => 7171100407,
         "codigo_formateado" => "7.17.1.10.04.07",
         "cuenta" => "por uso de tarjeta de credito",
@@ -683,7 +695,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 49,
+        "pos" => 50,
         "codigo" => 7171040102,
         "codigo_formateado" => "7.17.1.04.01.02",
         "cuenta" => "iva costo",
@@ -694,7 +706,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 50,
+        "pos" => 51,
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "espacio",
@@ -705,7 +717,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 51,
+        "pos" => 52,
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "excedente",
@@ -716,24 +728,22 @@ $listado = [
         "sub_total_col_3" => 0
     ]
 ];
-// ventas
-$listado[2]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '61310101')['saldo_final'];
 
-$listado[3]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '61310102')['saldo_final'];
+// +++
 
-// PRIMER SUBTOTAL
+$listado[4]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '61310101')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '61310102')['saldo_final'];
 
-$listado[4]['sub_total_col_2'] = $listado[2]['sub_total_col_2'] + $listado[3]['sub_total_col_2'];
+$listado[5]['sub_total_col_3'] =  abs($listado[4]['sub_total_col_2']) - abs(buscar_cuenta_no_recursiva($respuesta, '6131019901')['saldo_final']);
 
-$listado[5]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '6131019901')['saldo_final'];
+$listado[11]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7131010107')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7131019903')['saldo_final']);
 
-// primera resta
+$listado[13]['sub_total_col_2'] = $listado[11]['sub_total_col_2'] - abs(buscar_cuenta_no_recursiva($respuesta, '7131010105')['saldo_final']);
 
-$listado[5]['sub_total_col_3'] = abs($listado[4]['sub_total_col_2']) - abs($listado[5]['sub_total_col_2']);
+$listado[15]['sub_total_col_2'] = $listado[13]['sub_total_col_2'] + abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final']);
 
-// compras combustible al contado (se suman los tres tipos de gasolina)
-$listado[8]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7131010107')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7131010108')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7131010109')['saldo_final'];
+$listado[18]['sub_total_col_3'] = $listado[15]['sub_total_col_2'] - abs(buscar_cuenta_no_recursiva($respuesta, '1131060105')['saldo_final']) - abs(buscar_cuenta_no_recursiva($respuesta, '1131060106')['saldo_final']) - abs(buscar_cuenta_no_recursiva($respuesta, '1131060107')['saldo_final']);
 
+$listado[19]['sub_total_col_3'] = $listado[5]['sub_total_col_3'] - $listado[18]['sub_total_col_3'];
 
 
 $EXEDENTE_FINAL =  0;
