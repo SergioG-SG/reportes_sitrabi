@@ -170,7 +170,7 @@ $listado = [
         "codigo" => 61310101,
         "codigo_formateado" => "6.13.1.01.01",
         "cuenta" => "VENTAS COMBUSTIBLE AL CONTADO ASOCIADO",
-        "tipo" => "titulo",
+        "tipo" => "cuenta",
         "posicion" => 2,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
@@ -181,8 +181,8 @@ $listado = [
         "codigo" => 61310102,
         "codigo_formateado" => "6.13.1.01.02",
         "cuenta" => "VENTAS COMBUSTBILE AL COTNADO NO ASOCIADO",
-        "tipo" => "espacio",
-        "posicion" => 1,
+        "tipo" => "cuenta",
+        "posicion" => 2,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
@@ -192,8 +192,8 @@ $listado = [
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "SUB-TOTAL",
-        "tipo" => "cuenta",
-        "posicion" => 1,
+        "tipo" => "espacio",
+        "posicion" => 2,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
@@ -203,8 +203,8 @@ $listado = [
         "codigo" => 6131019901,
         "codigo_formateado" => "6.13.1.01.99.01",
         "cuenta" => "DESCUENTOS SOBRE VENTAS",
-        "tipo" => "titulo",
-        "posicion" => 1,
+        "tipo" => "cuenta",
+        "posicion" => 2,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
@@ -225,7 +225,7 @@ $listado = [
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "COMRAS",
-        "tipo" => "cuenta",
+        "tipo" => "titulo",
         "posicion" => 1,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
@@ -236,8 +236,8 @@ $listado = [
         "codigo" => 7131010107,
         "codigo_formateado" => "7.13.1.01.01.07",
         "cuenta" => "COMPRAS AL CONTADO",
-        "tipo" => "titulo",
-        "posicion" => 1,
+        "tipo" => "cuenta",
+        "posicion" => 2,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
@@ -247,8 +247,8 @@ $listado = [
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "IVA COSTO",
-        "tipo" => "cuenta",
-        "posicion" => 1,
+        "tipo" => "titulo",
+        "posicion" => 2,
         "sub_total_col_1" => 0,
         "sub_total_col_2" => 0,
         "sub_total_col_3" => 0
@@ -717,10 +717,26 @@ $listado = [
     ]
 ];
 // ventas
-$listado[23]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7131010101')['saldo_final'] +
+$listado[2]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '61310101')['saldo_final'];
+
+$listado[3]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '61310102')['saldo_final'];
+
+// PRIMER SUBTOTAL
+
+$listado[4]['sub_total_col_2'] = $listado[2]['sub_total_col_2'] + $listado[3]['sub_total_col_2'];
+
+$listado[5]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '6131019901')['saldo_final'];
+
+// primera resta
+
+$listado[5]['sub_total_col_3'] = abs($listado[4]['sub_total_col_2']) - abs($listado[5]['sub_total_col_2']);
+
+// compras combustible al contado (se suman los tres tipos de gasolina)
+$listado[8]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7131010107')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7131010108')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7131010109')['saldo_final'];
 
 
-    $EXEDENTE_FINAL =  0;
+
+$EXEDENTE_FINAL =  0;
 
 $row_1 = 20;
 $row_2 = 35;
