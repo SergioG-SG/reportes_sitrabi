@@ -147,7 +147,7 @@ $listado = [
     [
         "pos" => 0,
         "codigo" => 0,
-        "codigo_formateado" => 0,
+        "codigo_formateado" => "",
         "cuenta" => "seccion estacion",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -158,7 +158,7 @@ $listado = [
     [
         "pos" => 1,
         "codigo" => 0,
-        "codigo_formateado" => 0,
+        "codigo_formateado" => "",
         "cuenta" => "VENTAS",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -213,7 +213,7 @@ $listado = [
     [
         "pos" => 6,
         "codigo" => 0,
-        "codigo_formateado" => 0,
+        "codigo_formateado" => "",
         "cuenta" => "COSTO DE VENTAS",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -224,7 +224,7 @@ $listado = [
     [
         "pos" => 7,
         "codigo" => 0,
-        "codigo_formateado" => 0,
+        "codigo_formateado" => "",
         "cuenta" => "COMRAS",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -268,7 +268,7 @@ $listado = [
     [
         "pos" => 11,
         "codigo" => 0,
-        "codigo_formateado" => 0,
+        "codigo_formateado" => "",
         "cuenta" => "IVA COSTO",
         "tipo" => "titulo",
         "posicion" => 2,
@@ -335,7 +335,7 @@ $listado = [
         "pos" => 17,
         "codigo" => 0,
         "codigo_formateado" => "0",
-        "cuenta" => "Total combustible disponible",
+        "cuenta" => "TOTAL COBUSTIBLE DISPONIBLE",
         "tipo" => "espacio",
         "posicion" => 2,
         "sub_total_col_1" => 0,
@@ -379,7 +379,7 @@ $listado = [
         "pos" => 21,
         "codigo" => 0,
         "codigo_formateado" => "0",
-        "cuenta" => "excedente bruto en ventas",
+        "cuenta" => "EXCENDENTE BRUNTO EN VENTAS",
         "tipo" => "espacio",
         "posicion" => 3,
         "sub_total_col_1" => 0,
@@ -400,7 +400,7 @@ $listado = [
     [
         "pos" => 23,
         "codigo" => 0,
-        "codigo_formateado" => 0,
+        "codigo_formateado" => "",
         "cuenta" => "GASTOS",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -411,7 +411,7 @@ $listado = [
     [
         "pos" => 24,
         "codigo" => 0,
-        "codigo_formateado" => 0,
+        "codigo_formateado" => "",
         "cuenta" => "SECCION CONSUMO",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -466,7 +466,7 @@ $listado = [
     [
         "pos" => 29,
         "codigo" => 0,
-        "codigo_formateado" => 0,
+        "codigo_formateado" => "",
         "cuenta" => "PRESTAMOS LABORALES",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -488,7 +488,7 @@ $listado = [
     [
         "pos" => 31,
         "codigo" => 0,
-        "codigo_formateado" => 0,
+        "codigo_formateado" => "",
         "cuenta" => "REPARACIONES Y ACCESORIOS",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -521,7 +521,7 @@ $listado = [
     [
         "pos" => 34,  // Changed from 32
         "codigo" => 0,
-        "codigo_formateado" => 0,
+        "codigo_formateado" => "",
         "cuenta" => "GASTOS DE ADMINSITRACION",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -812,7 +812,7 @@ foreach ($listado as $key) {
 
         $html .= '
                 <tr>
-                    <td class="estilo_celda2 fondo_gris_titulo estilo_bold" style="width: ' . $row_1 . '%;">' . $pos . '- ' . $codigo_cuenta_ . '</td>
+                    <td class="estilo_celda2 fondo_gris_titulo estilo_bold" style="width: ' . $row_1 . '%;">' . $codigo_cuenta_  . '</td>
                     <td class="estilo_celda fondo_gris_titulo estilo_bold" style="width: ' . $row_2 . '%;">' . $nombre_cuenta_ . '</td>
                     <td class="estilo_celda fondo_gris_titulo estilo_bold centrar_texto" style="width: ' . $row_3 . '%;"></td>
                     <td class="estilo_celda fondo_gris_titulo estilo_bold centrar_texto" style="width: ' . $row_4 . '%;"></td>
@@ -821,7 +821,7 @@ foreach ($listado as $key) {
     } elseif ($key['tipo']  == 'espacio') {
 
         $html .= '<tr>
-                <td class="estilo_celda2" style="width: ' . $row_1 . '%;">' . $pos . ' - </td>
+                <td class="estilo_celda2" style="width: ' . $row_1 . '%;"></td>
                 <td class="estilo_celda" style="width: ' . $row_2 . '%;">' . $key['cuenta'] . '</td>
                 <td class="estilo_celda centrar_texto" style="width: ' . $row_3 . '%;">' . $sub_total_col_1_ . '</td>
                 <td class="estilo_celda centrar_texto" style="width: ' . $row_4 . '%;">' . $sub_total_col_2_ . '</td>
@@ -832,7 +832,7 @@ foreach ($listado as $key) {
         if ($key['posicion'] == 1) {
             $html .= '
                 <tr>
-                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">' . $pos . '- ' . $codigo_cuenta_ . '</td>
+                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">' . $codigo_cuenta_ . '</td>
                     <td class="estilo_celda" style="width: ' . $row_2 . '%;">' . $nombre_cuenta_ . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_3 . '%;">Q' . number_format(abs($resultado_['saldo_final']), 2, '.', ',') . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_4 . '%;">' . $sub_total_col_2_ . '</td>
@@ -843,7 +843,7 @@ foreach ($listado as $key) {
 
             $html .= '
                 <tr>
-                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">' . $pos . '- ' . $codigo_cuenta_ . '</td>
+                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">' . $codigo_cuenta_ . '</td>
                     <td class="estilo_celda" style="width: ' . $row_2 . '%;">' . $nombre_cuenta_ . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_3 . '%;">' . $sub_total_col_1_ . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_4 . '%;">Q' . number_format(abs($resultado_['saldo_final']), 2, '.', ',') . '</td>
@@ -853,7 +853,7 @@ foreach ($listado as $key) {
         } else {
             $html .= '
                 <tr>
-                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">' . $pos . '- ' . $codigo_cuenta_ . '</td>
+                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">' . $codigo_cuenta_ . '</td>
                     <td class="estilo_celda" style="width: ' . $row_2 . '%;">' . $nombre_cuenta_ . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_3 . '%;">' . $sub_total_col_1_ . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_4 . '%;">' . $sub_total_col_2_ . '</td>
@@ -863,7 +863,7 @@ foreach ($listado as $key) {
         }
     }
 
-    $pos += 1;
+    // $pos += 1;
 }
 
 
