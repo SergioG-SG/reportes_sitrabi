@@ -245,6 +245,28 @@ $listado = [
     ],
     [
         "pos" => 9,
+        "codigo" => 7131010108,
+        "codigo_formateado" => "7.13.1.01.01.08",
+        "cuenta" => "COMPRAS AL CONTADO",
+        "tipo" => "cuenta",
+        "posicion" => 2,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 10,
+        "codigo" => 7131010109,
+        "codigo_formateado" => "7.13.1.01.01.09",
+        "cuenta" => "COMPRAS AL CONTADO",
+        "tipo" => "cuenta",
+        "posicion" => 2,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 9,
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "IVA COSTO",
