@@ -266,7 +266,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 9,
+        "pos" => 11,
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "IVA COSTO",
@@ -277,32 +277,10 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 10,
+        "pos" => 12,
         "codigo" => 7131019903,
         "codigo_formateado" => "7.13.1.01.99.03",
         "cuenta" => "iva costo",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "pos" => 11,
-        "codigo" => 0,
-        "codigo_formateado" => 0,
-        "cuenta" => "SUB-TOTAL",
-        "tipo" => "espacio",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "pos" => 12,
-        "codigo" => 7131010105,
-        "codigo_formateado" => "7.13.1.01.01.05",
-        "cuenta" => "devoluciones y rebajas sobre compras",
         "tipo" => "cuenta",
         "posicion" => 2,
         "sub_total_col_1" => 0,
@@ -322,6 +300,28 @@ $listado = [
     ],
     [
         "pos" => 14,
+        "codigo" => 7131010105,
+        "codigo_formateado" => "7.13.1.01.01.05",
+        "cuenta" => "devoluciones y rebajas sobre compras",
+        "tipo" => "cuenta",
+        "posicion" => 2,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 15,
+        "codigo" => 0,
+        "codigo_formateado" => 0,
+        "cuenta" => "SUB-TOTAL",
+        "tipo" => "espacio",
+        "posicion" => 2,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 16,
         "codigo" => 1131060101,
         "codigo_formateado" => "1.13.1.06.01.01",
         "cuenta" => "INVENTARIOS DE MERCADERÍA ( COMPRAS)",
@@ -332,7 +332,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 15,
+        "pos" => 17,
         "codigo" => 0,
         "codigo_formateado" => "0",
         "cuenta" => "Total combustible disponible",
@@ -343,7 +343,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 16,
+        "pos" => 18,
         "codigo" => 1131060105,
         "codigo_formateado" => "1.13.1.06.01.05",
         "cuenta" => "INVENTARIO DE COMBUSTIBLE GASOLINA REGULAR",
@@ -354,7 +354,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 17,
+        "pos" => 19,
         "codigo" => 1131060106,
         "codigo_formateado" => "1.13.1.06.01.06",
         "cuenta" => "INVENTARIO DE COMBUSTIBLE GASOLINA SUPER",
@@ -365,7 +365,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 18,
+        "pos" => 20,
         "codigo" => 1131060107,
         "codigo_formateado" => "1.13.1.06.01.07",
         "cuenta" => "INVENTARIO DE COMBUSTIBLE DIESEL",
@@ -376,7 +376,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 19,
+        "pos" => 21,
         "codigo" => 0,
         "codigo_formateado" => "0",
         "cuenta" => "excedente bruto en ventas",
@@ -387,7 +387,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 20,
+        "pos" => 22,
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "TOTAL EXCEDENTE",
@@ -398,7 +398,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 21,
+        "pos" => 23,
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "GASTOS",
@@ -409,7 +409,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 22,
+        "pos" => 24,
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "SECCION CONSUMO",
@@ -420,7 +420,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 23,
+        "pos" => 25,
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "SUELDOS",
@@ -431,7 +431,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 24,
+        "pos" => 26,
         "codigo" => 7171030101,
         "codigo_formateado" => "7.17.1.03.01.01",
         "cuenta" => "SUELDOS PERMANENTES",
@@ -442,7 +442,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 25,
+        "pos" => 27,
         "codigo" => 7171030402,
         "codigo_formateado" => "7.17.1.03.04.02",
         "cuenta" => "bonificaciones",
@@ -453,7 +453,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 26,
+        "pos" => 28,
         "codigo" => 7171030401,
         "codigo_formateado" => "7.17.1.03.04.01",
         "cuenta" => "bonificacion incentivo",
@@ -464,7 +464,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 27,
+        "pos" => 29,
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "PRESTAMOS LABORALES",
@@ -475,7 +475,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 28,
+        "pos" => 30,
         "codigo" => 7171030501,
         "codigo_formateado" => "7.17.1.03.05.01",
         "cuenta" => "cuenta patronal igss",
@@ -486,7 +486,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 29,
+        "pos" => 31,
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "REPARACIONES Y ACCESORIOS",
@@ -497,7 +497,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 30,
+        "pos" => 32,
         "codigo" => 7171060203,
         "codigo_formateado" => "7.17.1.06.02.03",
         "cuenta" => "reparacion de vehiculos",
@@ -508,7 +508,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 31,
+        "pos" => 33,
         "codigo" => 7171060301,
         "codigo_formateado" => "7.17.1.06.03.01",
         "cuenta" => "repaciones de herramientas",
@@ -519,7 +519,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 32,
+        "pos" => 34,  // Changed from 32
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "GASTOS DE ADMINSITRACION",
@@ -530,7 +530,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 33,
+        "pos" => 35,  // Changed from 33
         "codigo" => 7171060301,
         "codigo_formateado" => "7.17.1.06.03.01",
         "cuenta" => "calibracion de bombas de combustible",
@@ -541,7 +541,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 34,
+        "pos" => 36,  // Changed from 34
         "codigo" => 7171060303,
         "codigo_formateado" => "7.17.1.06.03.03",
         "cuenta" => "reparacion de bombas de combustible",
@@ -552,7 +552,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 35,
+        "pos" => 37,
         "codigo" => 7171060304,
         "codigo_formateado" => "7.17.1.06.03.04",
         "cuenta" => "mermas de combustible",
@@ -563,7 +563,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 36,
+        "pos" => 38,
         "codigo" => 7171110101,
         "codigo_formateado" => "7.17.1.11.01.01",
         "cuenta" => "papelerias y útiles de oficina",
@@ -574,7 +574,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 37,
+        "pos" => 39,
         "codigo" => 7171100301,
         "codigo_formateado" => "7.17.1.10.03.01",
         "cuenta" => "servicio de telecomunicaciones",
@@ -585,7 +585,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 38,
+        "pos" => 40,
         "codigo" => 7171100201,
         "codigo_formateado" => "7.17.1.10.02.01",
         "cuenta" => "energia electrica",
@@ -596,7 +596,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 39,
+        "pos" => 41,
         "codigo" => 7171100101,
         "codigo_formateado" => "7.17.1.10.01.01",
         "cuenta" => "servicio de seguridad",
@@ -607,7 +607,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 40,
+        "pos" => 42,
         "codigo" => 7171100402,
         "codigo_formateado" => "7.17.1.10.04.02",
         "cuenta" => "accesorios para computadoras",
@@ -618,7 +618,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 41,
+        "pos" => 43,
         "codigo" => 7171100403,
         "codigo_formateado" => "7.17.1.10.04.03",
         "cuenta" => "varios e imprevistos",
@@ -629,7 +629,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 42,
+        "pos" => 44,
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "",
@@ -640,7 +640,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 43,
+        "pos" => 45,
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "GASTOS DE OPERACIÓN",
@@ -651,7 +651,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 44,
+        "pos" => 46,
         "codigo" => 7171020201,
         "codigo_formateado" => "7.17.1.02.02.01",
         "cuenta" => "viaticos",
@@ -662,7 +662,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 45,
+        "pos" => 47,
         "codigo" => 7171100404,
         "codigo_formateado" => "7.17.1.10.04.04",
         "cuenta" => "fletes",
@@ -673,7 +673,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 46,
+        "pos" => 48,
         "codigo" => 7171100406,
         "codigo_formateado" => "7.17.1.10.04.06",
         "cuenta" => "combustibles y lubricantes",
@@ -684,7 +684,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 47,
+        "pos" => 49,
         "codigo" => 7171040201,
         "codigo_formateado" => "7.17.1.04.02.01",
         "cuenta" => "impuestos y arbitrios fiscales",
@@ -695,7 +695,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 48,
+        "pos" => 50,
         "codigo" => 7171040101,
         "codigo_formateado" => "7.17.1.04.01.01",
         "cuenta" => "ipmuestos derivados del petroleo",
@@ -706,7 +706,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 49,
+        "pos" => 51,
         "codigo" => 7171100407,
         "codigo_formateado" => "7.17.1.10.04.07",
         "cuenta" => "por uso de tarjeta de credito",
@@ -717,7 +717,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 50,
+        "pos" => 52,
         "codigo" => 7171040102,
         "codigo_formateado" => "7.17.1.04.01.02",
         "cuenta" => "iva costo",
@@ -728,7 +728,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "pos" => 51,
+        "pos" => 53,
         "codigo" => 0,
         "codigo_formateado" => 0,
         "cuenta" => "",
@@ -746,30 +746,30 @@ $listado[4]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '6131010
 
 $listado[5]['sub_total_col_3'] =  abs($listado[4]['sub_total_col_2']) - abs(buscar_cuenta_no_recursiva($respuesta, '6131019901')['saldo_final']);
 
-$listado[11]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7131010107')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7131019903')['saldo_final']);
+$listado[13]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7131010107')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7131010108')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7131010109')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7131019903')['saldo_final']);
 
-$listado[13]['sub_total_col_2'] = $listado[11]['sub_total_col_2'] - abs(buscar_cuenta_no_recursiva($respuesta, '7131010105')['saldo_final']);
+$listado[15]['sub_total_col_2'] = $listado[13]['sub_total_col_2'] - abs(buscar_cuenta_no_recursiva($respuesta, '7131010105')['saldo_final']);
 
-$listado[15]['sub_total_col_2'] = $listado[13]['sub_total_col_2'] + abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final']);
+$listado[17]['sub_total_col_2'] = $listado[15]['sub_total_col_2'] + abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final']);
 
-$listado[18]['sub_total_col_3'] = $listado[15]['sub_total_col_2'] - abs(buscar_cuenta_no_recursiva($respuesta, '1131060105')['saldo_final']) - abs(buscar_cuenta_no_recursiva($respuesta, '1131060106')['saldo_final']) - abs(buscar_cuenta_no_recursiva($respuesta, '1131060107')['saldo_final']);
+$listado[20]['sub_total_col_3'] = $listado[17]['sub_total_col_2'] - abs(buscar_cuenta_no_recursiva($respuesta, '1131060105')['saldo_final']) - abs(buscar_cuenta_no_recursiva($respuesta, '1131060106')['saldo_final']) - abs(buscar_cuenta_no_recursiva($respuesta, '1131060107')['saldo_final']);
 
-$listado[19]['sub_total_col_3'] = $listado[5]['sub_total_col_3'] - $listado[18]['sub_total_col_3'];
+$listado[21]['sub_total_col_3'] = $listado[5]['sub_total_col_3'] - $listado[20]['sub_total_col_3'];
 
-$listado[26]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7171030101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171030402')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171030401')['saldo_final']);
+$listado[28]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7171030101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171030402')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171030401')['saldo_final']);
 
-$listado[28]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7171030501')['saldo_final']);
+$listado[30]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7171030501')['saldo_final']);
 
-$listado[31]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7171060203')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171060301')['saldo_final']);
+$listado[33]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7171060203')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171060301')['saldo_final']);
 
-$listado[41]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7171060301')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171060303')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171060304')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171110101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100301')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100201')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100402')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100403')['saldo_final']);
+$listado[43]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7171060301')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171060303')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171060304')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171110101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100301')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100201')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100402')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100403')['saldo_final']);
 
-$listado[50]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7171020201')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100404')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100406')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171040201')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171040101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100407')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171040102')['saldo_final']);
+$listado[52]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7171020201')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100404')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100406')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171040201')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171040101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100407')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171040102')['saldo_final']);
 
-$listado[50]['sub_total_col_3'] = $listado[26]['sub_total_col_2'] + $listado[28]['sub_total_col_2'] + $listado[31]['sub_total_col_2'] + $listado[41]['sub_total_col_2'] +  + $listado[50]['sub_total_col_2'];
+$listado[52]['sub_total_col_3'] = $listado[28]['sub_total_col_2'] + $listado[30]['sub_total_col_2'] + $listado[33]['sub_total_col_2'] + $listado[43]['sub_total_col_2'] +  + $listado[52]['sub_total_col_2'];
 
 
-$EXEDENTE_FINAL =  $listado[19]['sub_total_col_3'] - $listado[50]['sub_total_col_3'];
+$EXEDENTE_FINAL =  $listado[21]['sub_total_col_3'] - $listado[52]['sub_total_col_3'];
 
 $row_1 = 20;
 $row_2 = 35;
