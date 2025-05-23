@@ -621,7 +621,7 @@ $listado = [
         "pos" => 43,
         "codigo" => 0,
         "codigo_formateado" => 0,
-        "cuenta" => "gastos de operacion",
+        "cuenta" => "GASTOS DE OPERACIÓN",
         "tipo" => "espacio",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -709,18 +709,7 @@ $listado = [
         "pos" => 51,
         "codigo" => 0,
         "codigo_formateado" => 0,
-        "cuenta" => "espacio",
-        "tipo" => "espacio",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "pos" => 52,
-        "codigo" => 0,
-        "codigo_formateado" => 0,
-        "cuenta" => "excedente",
+        "cuenta" => "",
         "tipo" => "espacio",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -745,8 +734,20 @@ $listado[18]['sub_total_col_3'] = $listado[15]['sub_total_col_2'] - abs(buscar_c
 
 $listado[19]['sub_total_col_3'] = $listado[5]['sub_total_col_3'] - $listado[18]['sub_total_col_3'];
 
+$listado[26]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7171030101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171030402')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171030401')['saldo_final']);
 
-$EXEDENTE_FINAL =  0;
+$listado[28]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7171030501')['saldo_final']);
+
+$listado[31]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7171060203')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171060301')['saldo_final']);
+
+$listado[41]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7171060301')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171060303')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171060304')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171110101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100301')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100201')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100402')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100403')['saldo_final']);
+
+$listado[50]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7171020201')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100404')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100406')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171040201')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171040101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100407')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171040102')['saldo_final']);
+
+$listado[50]['sub_total_col_3'] = $listado[26]['sub_total_col_2'] + $listado[28]['sub_total_col_2'] + $listado[31]['sub_total_col_2'] + $listado[41]['sub_total_col_2'] +  + $listado[50]['sub_total_col_2'];
+
+
+$EXEDENTE_FINAL =  $listado[19]['sub_total_col_3'] - $listado[50]['sub_total_col_3'];
 
 $row_1 = 20;
 $row_2 = 35;
