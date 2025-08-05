@@ -1,5 +1,5 @@
 <?php
-set_time_limit(120); // Aumentar el límite de tiempo de ejecución a 120 segundos
+set_time_limit(180); // Aumentar el límite de tiempo de ejecución a 120 segundos
 date_default_timezone_set('America/Guatemala');
 
 header('Access-Control-Allow-Origin: *');
@@ -24,15 +24,15 @@ $ip = '192.168.10.14';
 
 //OBTENER ARBOL DE CUENTAS
 
-$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos" : "http://". $ip .":8009/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos";
+$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos" : "http://" . $ip . ":8009/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos";
 
-$url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/centros-de-costos/c/nombre/" . $centro_de_costo : "http://". $ip .":8009/api/centros-de-costos/c/nombre/" . $centro_de_costo;
+$url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/centros-de-costos/c/nombre/" . $centro_de_costo : "http://" . $ip . ":8009/api/centros-de-costos/c/nombre/" . $centro_de_costo;
 
 
 // consulta al gparametros para traer el saldo final que se guarda manualmente // tiene un 0 al final porque es el centro de costo que pide pero que se ha desabilitado
 // $url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/parametros/0" : "http://". $ip .":8009/api/gparametros/c/parametros/0";
 
-$url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/inventario_por_trimestre/" . $fecha_final : "http://". $ip .":8009/api/gparametros/c/inventario_por_trimestre/" . $fecha_final;
+$url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/inventario_por_trimestre/" . $fecha_final : "http://" . $ip . ":8009/api/gparametros/c/inventario_por_trimestre/" . $fecha_final;
 
 
 $data = array(
@@ -766,7 +766,7 @@ $listado[43]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '71
 
 $listado[52]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '7171020201')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100404')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100406')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171040201')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171040101')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171100407')['saldo_final']) + abs(buscar_cuenta_no_recursiva($respuesta, '7171040102')['saldo_final']);
 
-$listado[52]['sub_total_col_3'] = $listado[28]['sub_total_col_2'] + $listado[30]['sub_total_col_2'] + $listado[33]['sub_total_col_2'] + $listado[43]['sub_total_col_2'] +  + $listado[52]['sub_total_col_2'];
+$listado[52]['sub_total_col_3'] = $listado[28]['sub_total_col_2'] + $listado[30]['sub_total_col_2'] + $listado[33]['sub_total_col_2'] + $listado[43]['sub_total_col_2'] +  +$listado[52]['sub_total_col_2'];
 
 
 $EXEDENTE_FINAL =  $listado[21]['sub_total_col_3'] - $listado[52]['sub_total_col_3'];
