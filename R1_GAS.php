@@ -72,8 +72,8 @@ $contexto = stream_context_create($opciones);
 $respuesta = json_decode(file_get_contents($url, false, $contexto), true);
 
 // consulta de nombre de de centro de costo
-$contexto2 = stream_context_create($query_nombre_cdc);
-$respuesta2 = json_decode(file_get_contents($url2, false, $contexto2), true);
+// $contexto2 = stream_context_create($query_nombre_cdc);
+// $respuesta2 = json_decode(file_get_contents($url2, false, $contexto2), true);
 
 $nombre_centro_de_costo = $centro_de_costo == 0 ? 'GENERAL' : $respuesta2[0][nombre];
 
@@ -83,8 +83,8 @@ $query_inventario_final = array('http' => array(
     'header' => 'Authorization: Bearer ' . $token,
 ));
 
-$contexto3 = stream_context_create($query_inventario_final);
-$respuesta3 = json_decode(file_get_contents($url3, false, $contexto3), true);
+// $contexto3 = stream_context_create($query_inventario_final);
+// $respuesta3 = json_decode(file_get_contents($url3, false, $contexto3), true);
 
 // echo ": ";
 // print_r($respuesta3[inventario_final]);
