@@ -1,5 +1,4 @@
 <?php
-set_time_limit(120); // Aumentar el límite de tiempo de ejecución a 120 segundos
 date_default_timezone_set('America/Guatemala');
 
 header('Access-Control-Allow-Origin: *');
@@ -12,23 +11,17 @@ require_once('mpdf/mpdf.php');
 
 $fecha_inicial = $_GET['fecha_inicial'];
 $fecha_final = $_GET['fecha_final'];
-$centro_de_costo = 0;
+$centro_de_costo = $_GET['centro_de_costo'];
 $token = $_GET['token'];
 $env = $_GET['env'];
 $ip_dev = "192.168.1.68";
 
+
 //OBTENER ARBOL DE CUENTAS
 
-$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos" : "http://". $ip_dev .":8009/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos";
+$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte-balance-saldos-ssi" : "http://". $ip_dev .":8009/api/contabilidad-transaccion-cabeceras/c/reporte-balance-saldos-ssi";
 
 $url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/centros-de-costos/c/nombre/" . $centro_de_costo : "http://". $ip_dev .":8009/api/centros-de-costos/c/nombre/" . $centro_de_costo;
-
-
-// consulta al gparametros para traer el saldo final que se guarda manualmente // tiene un 0 al final porque es el centro de costo que pide pero que se ha desabilitado
-// $url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/parametros/0" : "http://". $ip_dev .":8009/api/gparametros/c/parametros/0";
-
-$url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/gparametros/c/inventario_por_trimestre/". $fecha_final : "http://". $ip_dev .":8009/api/gparametros/c/inventario_por_trimestre/". $fecha_final;
-
 
 $data = array(
     "data" => array(
@@ -72,18 +65,6 @@ $respuesta2 = json_decode(file_get_contents($url2, false, $contexto2), true);
 
 $nombre_centro_de_costo = $centro_de_costo == 0 ? 'GENERAL' : $respuesta2[0][nombre];
 
-// CONSULTA DE INVENTARIO FINAL EN GPARAMETROS
-$query_inventario_final = array('http' => array(
-    'method' => 'GET',
-    'header' => 'Authorization: Bearer ' . $token,
-));
-
-$contexto3 = stream_context_create($query_inventario_final);
-$respuesta3 = json_decode(file_get_contents($url3, false, $contexto3), true);
-
-// echo ": ";
-// print_r($respuesta3[inventario_final]);
-// die();
 
 // CUENTAS PARA SUMAR DE LA SEGUNDA COLUMNA NIVEL 6
 
@@ -114,21 +95,6 @@ function buscar_cuenta_no_recursiva($datos, $codigo_buscado)
     return null;
 }
 
-
-
-function suma_saldos($resp, $array){
-
-    $resultado = 0;
-
-    foreach ($array as $key) {
-        $resultado += abs(buscar_cuenta_no_recursiva($resp, $key)['saldo_final']);
-    }
-
-
-    return $resultado;
-
-}
-
 // $es = buscar_cuenta_no_recursiva($respuesta, '6');
 // print_r($respuesta);
 
@@ -136,11 +102,13 @@ function suma_saldos($resp, $array){
 
 
 
+
+
 $listado = [
     [
-        "sel" => 0,
+        "pos" => 0,
         "codigo" => 6,
-        "codigo_formateado" => 6,
+        "codigo_formateado" => "6",
         "cuenta" => "PRODUCTOS",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -149,10 +117,10 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 613,
-        "codigo_formateado" => 6.13,
-        "cuenta" => "INGRESOS, OTROS NEGOCIOS SIN INTERMEDIACIÓN FINANCIERA",
+        "pos" => 1,
+        "codigo" => 601,
+        "codigo_formateado" => "6.01",
+        "cuenta" => "PRODUCTOS FINANCIEROS",
         "tipo" => "titulo",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -160,10 +128,10 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 6131,
-        "codigo_formateado" => "6.13.1",
-        "cuenta" => "INGRESOS VARIOS",
+        "pos" => 2,
+        "codigo" => 6011,
+        "codigo_formateado" => "6.01.1",
+        "cuenta" => "PRODUCTOS VARIOS",
         "tipo" => "titulo",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -171,489 +139,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 613101,
-        "codigo_formateado" => "6.13.1.01",
-        "cuenta" => "VENTAS",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 61310101,
-        "codigo_formateado" => "6.13.1.01.01",
-        "cuenta" => "VENTAS ASOCIADOS",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 6131010150,
-        "codigo_formateado" => "6.13.1.01.01.50",
-        "cuenta" => "Ventas al contado ",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 6131010151,
-        "codigo_formateado" => "6.13.1.01.01.51",
-        "cuenta" => "Ventas al crédito",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 61310102,
-        "codigo_formateado" => "6.13.1.01.02",
-        "cuenta" => "VENTAS A NO ASOCIADOS",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 6131010201,
-        "codigo_formateado" => "6.13.1.01.02.01",
-        "cuenta" => "Ventas al contado ",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 6131010202,
-        "codigo_formateado" => "6.13.1.01.02.02",
-        "cuenta" => "Ventas al crédito",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 0,
-        "cuenta" => "SUB-TOTAL",
-        "tipo" => "espacio",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 61310199,
-        "codigo_formateado" => "6.13.1.01.99.",
-        "cuenta" => "MENOS:  Devoluciones y descuentos",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 6131019901,
-        "codigo_formateado" => "6.13.1.01.99.01",
-        "cuenta" => " Descuentos sobre ventas",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 6131019902,
-        "codigo_formateado" => "6.13.1.01.99.02",
-        "cuenta" => "Devoluciones y rebajas sobre ventas",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 7,
-        "codigo_formateado" => "7.....",
-        "cuenta" => "GASTOS",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 713,
-        "codigo_formateado" => "7.13....",
-        "cuenta" => "COSTOS Y GASTOS DE NEGOCIOS  ",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 7131,
-        "codigo_formateado" => "7.13.1...",
-        "cuenta" => "COSTOS Y GASTOS  ",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 713101,
-        "codigo_formateado" => "7.13.1.01..",
-        "cuenta" => "COSTO DE VENTAS",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 71310101,
-        "codigo_formateado" => "7.13.1.01.01.",
-        "cuenta" => "COMPRAS",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 7131010101,
-        "codigo_formateado" => "7.13.1.01.01.01",
-        "cuenta" => "Compras al contado",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 7131010102,
-        "codigo_formateado" => "7.13.1.01.01.02",
-        "cuenta" => "Compras al crédito",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 71310199,
-        "codigo_formateado" => "7.13.1.01.99.",
-        "cuenta" => "OTROS COSTOS",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 7131019903,
-        "codigo_formateado" => "7.13.1.01.99.03",
-        "cuenta" => "IVA Costo compras",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 0,
-        "codigo_formateado" => "0",
-        "cuenta" => "SUB-TOTAL",
-        "tipo" => "espacio",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 71310101,
-        "codigo_formateado" => "7.13.1.01.01.",
-        "cuenta" => "COMPRAS",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 7131010105,
-        "codigo_formateado" => "7.13.1.01.01.05",
-        "cuenta" => "MENOS : Devoluciones y rebajas sobre compras",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 0,
-        "codigo_formateado" => "0",
-        "cuenta" => "SUB-TOTAL",
-        "tipo" => "espacio",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 113106,
-        "codigo_formateado" => "1.13.1.06..",
-        "cuenta" => " INVENTARIOS",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 1131060101, //1131060101
-        "codigo_formateado" => "1.13.1.06.01.01",
-        "cuenta" => "Inventario de mercaderías ( compras )",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 0,
-        "codigo_formateado" => "0",
-        "cuenta" => "Total mercaderia disponible",
-        "tipo" => "espacio",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 113106,
-        "codigo_formateado" => "1.13.1.06..",
-        "cuenta" => "INVENTARIOS",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 1,
-        "codigo" => 1131060101,
-        "codigo_formateado" => "1.13.1.06.01.01",
-        "cuenta" => " Inventario final de mercaderías",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => "34-111",
-        "cuenta" => "EXCEDENTE BRUTO EN VENTAS",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 6131,
-        "codigo_formateado" => "6.13.1...",
-        "cuenta" => "INGRESOS VARIOS",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 613104,
-        "codigo_formateado" => "6.13.1.04..",
-        "cuenta" => "OTROS PRODUCTOS",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 61310401,
-        "codigo_formateado" => "6.13.1.04.01.",
-        "cuenta" => "OTROS PRODUCTOS DE ASOCIADOS",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 6131040101,
-        "codigo_formateado" => "6.13.1.04.01.01",
-        "cuenta" => "Productos varios sección consumo",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 613106,
-        "codigo_formateado" => "6.13.1.06..",
-        "cuenta" => "MAS: COMISIONES SECCION CONSUMO",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 61310601,
-        "codigo_formateado" => "6.13.1.06.01.",
-        "cuenta" => "COMISIONES",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 6131060101,
-        "codigo_formateado" => "6.13.1.06.01.01",
-        "cuenta" => "Comisiones por manejo de créditos consumo",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 6131060102,
-        "codigo_formateado" => "6.13.1.06.01.02",
-        "cuenta" => "Fletes",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 61310402,
-        "codigo_formateado" => "6.13.1.04.02.",
-        "cuenta" => "OTROS PRODUCTOS DE NO ASOCIADOS",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => "42-319",
-        "cuenta" => "Productos varios sección consumo",
-        "tipo" => "cuenta",
-        "posicion" => 2,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => "34-111",
-        "cuenta" => "TOTAL EXCEDENTE",
-        "tipo" => "espacio",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 7,
-        "codigo_formateado" => "7.....",
-        "cuenta" => "GASTOS",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 714,
-        "codigo_formateado" => "7.14....",
-        "cuenta" => "GASTOS SECCION CONSUMO (  FINANCIEROS )",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 7141,
-        "codigo_formateado" => "7.14.1...",
-        "cuenta" => "GASTOS",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 714101,
-        "codigo_formateado" => "7.14.1.01..",
+        "pos" => 3,
+        "codigo" => 601101,
+        "codigo_formateado" => "6.01.1.01",
         "cuenta" => "INTERESES",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -662,10 +150,21 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 714101015001,
-        "codigo_formateado" => "7.14.1.01.01.50.01",
-        "cuenta" => "Intereses por aportaciones",
+        "pos" => 4,
+        "codigo" => 60110103,
+        "codigo_formateado" => "6.01.1.01.03",
+        "cuenta" => "CARTERA DE CRÉDITOS",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 5,
+        "codigo" => 601101030210,
+        "codigo_formateado" => "6.01.1.01.03.02.10",
+        "cuenta" => "Intereses por préstamos ordinarios",
         "tipo" => "cuenta",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -673,10 +172,10 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 714101020201,
-        "codigo_formateado" => "7.14.1.01.02.02.01",
-        "cuenta" => "Intereses por prestamos bancarios",
+        "pos" => 6,
+        "codigo" => 601101030410,
+        "codigo_formateado" => "6.01.1.01.03.04.10",
+        "cuenta" => "Intereses por préstamos lotificación Amates",
         "tipo" => "cuenta",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -684,9 +183,284 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 714102,
-        "codigo_formateado" => "7.14.1.02..",
+        "pos" => 7,
+        "codigo" => 601101030411,
+        "codigo_formateado" => "6.01.1.01.03.04.11",
+        "cuenta" => "Intereses por préstamos lotificación Rancho Grande",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 8,
+        "codigo" => 601101030412,
+        "codigo_formateado" => "6.01.1.01.03.04.12",
+        "cuenta" => "Intereses por préstamos lotificación Atlantis",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 9,
+        "codigo" => 601101030413,
+        "codigo_formateado" => "6.01.1.01.03.04.13",
+        "cuenta" => "Intereses por préstamos lotificación La Vigia",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 10,
+        "codigo" => 60110104,
+        "codigo_formateado" => "6.01.1.01.04.",
+        "cuenta" => "INTERESES POR MORA  ",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 11,
+        "codigo" => 601101040210,
+        "codigo_formateado" => "6.01.1.01.04.02.10",
+        "cuenta" => "Intereses por mora, préstamos ordinarios",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 12,
+        "codigo" => 601101040402,
+        "codigo_formateado" => "6.01.1.01.04.04.02",
+        "cuenta" => "Intereses por mora, préstamos lotificación",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 13,
+        "codigo" => 602,
+        "codigo_formateado" => "6.02",
+        "cuenta" => "PRODUCTOS POR SERVICIOS",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 14,
+        "codigo" => 6021,
+        "codigo_formateado" => "6.02.1",
+        "cuenta" => "COMISIONES",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 15,
+        "codigo" => 602101,
+        "codigo_formateado" => "6.02.1.01",
+        "cuenta" => "COMISIONES POR SERVICIOS DIVERSOS",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 16,
+        "codigo" => 6021019901,
+        "codigo_formateado" => "6.02.1.01.99.01",
+        "cuenta" => "Comisiones por manejo de créditos",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 17,
+        "codigo" => 6021019902,
+        "codigo_formateado" => "6.02.1.01.99.02",
+        "cuenta" => "Comisiones por gastos de administración",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 18,
+        "codigo" => 6021019903,
+        "codigo_formateado" => "6.02.1.01.99.03",
+        "cuenta" => "Productos varios",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 19,
+        "codigo" => 7,
+        "codigo_formateado" => "7.",
+        "cuenta" => "GASTOS",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 20,
+        "codigo" => 701,
+        "codigo_formateado" => "7.01",
+        "cuenta" => "GASTOS FINANCIEROS",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 21,
+        "codigo" => 7011,
+        "codigo_formateado" => "7.01.1",
+        "cuenta" => "GASTOS PAGO INTERESES",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 22,
+        "codigo" => 701101,
+        "codigo_formateado" => "7.01.1.01",
+        "cuenta" => "INTERESES",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 23,
+        "codigo" => 701101010201,
+        "codigo_formateado" => "7.01.1.01.01.02.01",
+        "cuenta" => "Intereses por depósitos de ahorro familiar",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 24,
+        "codigo" => 701101010202,
+        "codigo_formateado" => "7.01.1.01.01.02.02",
+        "cuenta" => "Intereses por depósitos de ahorro especial",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 25,
+        "codigo" => 701101010203,
+        "codigo_formateado" => "7.01.1.01.01.02.03",
+        "cuenta" => "Intereses por depósitos de ahorro vacacional",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 26,
+        "codigo" => 701101010301,
+        "codigo_formateado" => "7.01.1.01.01.03.01",
+        "cuenta" => "Intereses por depósitos de ahorro plazo fijo",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 27,
+        "codigo" => 701101015001,
+        "codigo_formateado" => "7.01.1.01.01.50.01",
+        "cuenta" => "Intereses por depósitos de ahorro corriente y apartación",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 28,
+        "codigo" => 701101020201,
+        "codigo_formateado" => "7.01.1.01.02.02.01",
+        "cuenta" => "Intereses por prestámos bancarios Interbanco",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 29,
+        "codigo" => 701101020202,
+        "codigo_formateado" => "7.01.1.01.02.02.02",
+        "cuenta" => "Intereses por prestámos bancarios Bantrab",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 30,
+        "codigo" => 706,
+        "codigo_formateado" => "7.06",
+        "cuenta" => "GASTOS DE ADMINISTRACION",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 31,
+        "codigo" => 7061,
+        "codigo_formateado" => "7.06.1",
+        "cuenta" => "GASTOS",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 32,
+        "codigo" => 706101,
+        "codigo_formateado" => "7.06.1.01",
         "cuenta" => "ORGANOS DIRECTIVOS",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -695,10 +469,10 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141020104,
-        "codigo_formateado" => "7.14.1.02.01.04",
-        "cuenta" => "Otros",
+        "pos" => 33,
+        "codigo" => 70610101,
+        "codigo_formateado" => "7.06.1.01.01.",
+        "cuenta" => "Dietas",
         "tipo" => "cuenta",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -706,10 +480,10 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141020201,
-        "codigo_formateado" => "7.14.1.02.02.01",
-        "cuenta" => "viáticos",
+        "pos" => 34,
+        "codigo" => 70610103,
+        "codigo_formateado" => "7.06.1.01.03.",
+        "cuenta" => "Transporte y viáticos",
         "tipo" => "cuenta",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -717,9 +491,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 714103,
-        "codigo_formateado" => "7.14.1.03..",
+        "pos" => 35,
+        "codigo" => 706102,
+        "codigo_formateado" => "7.06.1.02",
         "cuenta" => "FUNCIONARIOS Y EMPLEADOS",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -728,9 +502,20 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141030101,
-        "codigo_formateado" => "7.14.1.03.01.01",
+        "pos" => 36,
+        "codigo" => 70610201,
+        "codigo_formateado" => "7.06.1.02.01.",
+        "cuenta" => "SUELDOS ORDINARIOS",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 37,
+        "codigo" => 7061020101,
+        "codigo_formateado" => "7.06.1.02.01.01",
         "cuenta" => "Sueldos permanentes",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -739,9 +524,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141030102,
-        "codigo_formateado" => "7.14.1.03.01.02",
+        "pos" => 38,
+        "codigo" => 7061020102,
+        "codigo_formateado" => "7.06.1.02.01.02",
         "cuenta" => "Sueldos eventuales",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -750,10 +535,21 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141030201,
-        "codigo_formateado" => "7.14.1.03.02.01",
-        "cuenta" => "Aguinaldos",
+        "pos" => 39,
+        "codigo" => 70610203,
+        "codigo_formateado" => "7.06.1.02.03.",
+        "cuenta" => "AGUINALDOS",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 40,
+        "codigo" => 7061020301,
+        "codigo_formateado" => "7.06.1.02.03.01",
+        "cuenta" => "Aguinaldo   ",
         "tipo" => "cuenta",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -761,9 +557,20 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141030301,
-        "codigo_formateado" => "7.14.1.03.03.01",
+        "pos" => 41,
+        "codigo" => 70610204,
+        "codigo_formateado" => "7.06.1.02.04.",
+        "cuenta" => "INDEMNIZACIONES",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 42,
+        "codigo" => 7061020401,
+        "codigo_formateado" => "7.06.1.02.04.01",
         "cuenta" => "Indemnizaciones",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -772,10 +579,21 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141030401,
-        "codigo_formateado" => "7.14.1.03.04.01",
-        "cuenta" => "Bonificacion incentivo ",
+        "pos" => 43,
+        "codigo" => 70610205,
+        "codigo_formateado" => "7.06.1.02.05.",
+        "cuenta" => "BONIFICACIONES",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 44,
+        "codigo" => 7061020501,
+        "codigo_formateado" => "7.06.1.02.05.01",
+        "cuenta" => "Bonificación incentivo",
         "tipo" => "cuenta",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -783,9 +601,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141030402,
-        "codigo_formateado" => "7.14.1.03.04.02",
+        "pos" => 45,
+        "codigo" => 7061020502,
+        "codigo_formateado" => "7.06.1.02.05.02",
         "cuenta" => "Bonificaciones",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -794,9 +612,20 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141030501,
-        "codigo_formateado" => "7.14.1.03.05.01",
+        "pos" => 46,
+        "codigo" => 70610209,
+        "codigo_formateado" => "7.06.1.02.09.",
+        "cuenta" => "CUOTA PATRONAL IGSS",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 47,
+        "codigo" => 7061020901,
+        "codigo_formateado" => "7.06.1.02.09.01",
         "cuenta" => "Cuota patronal Igss",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -805,9 +634,20 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141030601,
-        "codigo_formateado" => "7.14.1.03.06.01",
+        "pos" => 48,
+        "codigo" => 70610210,
+        "codigo_formateado" => "7.06.1.02.10.",
+        "cuenta" => "VACACIONES",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 49,
+        "codigo" => 7061021001,
+        "codigo_formateado" => "7.06.1.02.10.01",
         "cuenta" => "Vacaciones",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -816,9 +656,20 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141030701,
-        "codigo_formateado" => "7.14.1.03.07.01",
+        "pos" => 50,
+        "codigo" => 70610299,
+        "codigo_formateado" => "7.06.1.02.99.",
+        "cuenta" => "OTRAS PRESTACIONES LABORALES",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 51,
+        "codigo" => 7061029901,
+        "codigo_formateado" => "7.06.1.02.99.01",
         "cuenta" => "Bono catorce",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -827,10 +678,10 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141030702,
-        "codigo_formateado" => "7.14.1.03.07.02",
-        "cuenta" => "Comisiones ",
+        "pos" => 52,
+        "codigo" => 7061029902,
+        "codigo_formateado" => "7.06.1.02.99.02",
+        "cuenta" => "Comisiones",
         "tipo" => "cuenta",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -838,9 +689,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141030703,
-        "codigo_formateado" => "7.14.1.03.07.03",
+        "pos" => 53,
+        "codigo" => 7061029903,
+        "codigo_formateado" => "7.06.1.02.99.03",
         "cuenta" => "Bonificaciones",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -849,9 +700,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 714104,
-        "codigo_formateado" => "7.14.1.04..",
+        "pos" => 54,
+        "codigo" => 706103,
+        "codigo_formateado" => "7.06.1.03",
         "cuenta" => "TRIBUTOS Y OTRAS CUOTAS",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -860,9 +711,20 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141040101,
-        "codigo_formateado" => "7.14.1.04.01.01",
+        "pos" => 55,
+        "codigo" => 70610301,
+        "codigo_formateado" => "7.06.1.03.01.",
+        "cuenta" => "IMPUESTOS",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 56,
+        "codigo" => 7061030101,
+        "codigo_formateado" => "7.06.1.03.01.01",
         "cuenta" => "Impuesto derivado del Petroleo",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -871,10 +733,10 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141040102,
-        "codigo_formateado" => "7.14.1.04.01.02",
-        "cuenta" => "IVA costo",
+        "pos" => 57,
+        "codigo" => 7061030102,
+        "codigo_formateado" => "7.06.1.03.01.02",
+        "cuenta" => "IVA costo  ",
         "tipo" => "cuenta",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -882,10 +744,10 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141040103,
-        "codigo_formateado" => "7.14.1.04.01.03",
-        "cuenta" => "I.S.R TRIMESTRAL",
+        "pos" => 58,
+        "codigo" => 7061030103,
+        "codigo_formateado" => "7.06.1.03.01.03",
+        "cuenta" => "I.S.R. Trimestral ( gasto)",
         "tipo" => "cuenta",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -893,10 +755,10 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141040104,
-        "codigo_formateado" => "7.14.1.04.01.04",
-        "cuenta" => "ISO TRIMESTRAL",
+        "pos" => 59,
+        "codigo" => 7061030104,
+        "codigo_formateado" => "7.06.1.03.01.04",
+        "cuenta" => "ISO Trimestral ( gasto )",
         "tipo" => "cuenta",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -904,10 +766,21 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141040201,
-        "codigo_formateado" => "7.14.1.04.02.01",
-        "cuenta" => "Impuesto y arbitrios fiscales",
+        "pos" => 60,
+        "codigo" => 70610302,
+        "codigo_formateado" => "7.06.1.03.02.",
+        "cuenta" => "ARBITRIOS",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 61,
+        "codigo" => 7061030201,
+        "codigo_formateado" => "7.06.1.03.02.01",
+        "cuenta" => "Impuestos y arbitrios fiscales",
         "tipo" => "cuenta",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -915,9 +788,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 71410501,
-        "codigo_formateado" => "7.14.1.05.01.",
+        "pos" => 62,
+        "codigo" => 70610499,
+        "codigo_formateado" => "7.06.1.04.99",
         "cuenta" => "OTROS",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -926,9 +799,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141050101,
-        "codigo_formateado" => "7.14.1.05.01.01",
+        "pos" => 63,
+        "codigo" => 7061049901,
+        "codigo_formateado" => "7.06.1.04.99.01",
         "cuenta" => "Honorarios profesionales",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -937,9 +810,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 714106,
-        "codigo_formateado" => "7.14.1.06..",
+        "pos" => 64,
+        "codigo" => 706106,
+        "codigo_formateado" => "7.06.1.06",
         "cuenta" => "REPARACIONES Y MANTENIMIENTO",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -948,9 +821,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141060101,
-        "codigo_formateado" => "7.14.1.06.01.01",
+        "pos" => 65,
+        "codigo" => 7061060101,
+        "codigo_formateado" => "7.06.1.06.01.01",
         "cuenta" => "Reparaciones de edificios",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -959,9 +832,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141060201,
-        "codigo_formateado" => "7.14.1.06.02.01",
+        "pos" => 66,
+        "codigo" => 7061060201,
+        "codigo_formateado" => "7.06.1.06.02.01",
         "cuenta" => "Reparaciones de mobiliario y equipo",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -970,10 +843,10 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141060203,
-        "codigo_formateado" => "7.14.1.06.02.03",
-        "cuenta" => "Reparaciones de vehículos ",
+        "pos" => 67,
+        "codigo" => 7061060204,
+        "codigo_formateado" => "7.06.1.06.02.04",
+        "cuenta" => "Reparaciones de vehículos",
         "tipo" => "cuenta",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -981,9 +854,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141060301,
-        "codigo_formateado" => "7.14.1.06.03.01",
+        "pos" => 68,
+        "codigo" => 7061069901,
+        "codigo_formateado" => "7.06.1.06.99.01",
         "cuenta" => "Reparaciones de herramientas",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -992,9 +865,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 714107,
-        "codigo_formateado" => "7.14.1.07..",
+        "pos" => 69,
+        "codigo" => 706107,
+        "codigo_formateado" => "7.06.1.07",
         "cuenta" => "MERCADEO Y PUBLICIDAD",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -1003,9 +876,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141070101,
-        "codigo_formateado" => "7.14.1.07.01.01",
+        "pos" => 70,
+        "codigo" => 7061070201,
+        "codigo_formateado" => "7.06.1.07.02.01",
         "cuenta" => "Educación y mercadeo",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -1014,9 +887,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 714108,
-        "codigo_formateado" => "7.14.1.08..",
+        "pos" => 71,
+        "codigo" => 706108,
+        "codigo_formateado" => "7.06.1.08",
         "cuenta" => "PRIMAS DE SEGUROS Y FIANZAS",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -1025,9 +898,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141080101,
-        "codigo_formateado" => "7.14.1.08.01.01",
+        "pos" => 72,
+        "codigo" => 7061080101,
+        "codigo_formateado" => "7.06.1.08.01.01",
         "cuenta" => "Seguros y fianzas",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -1036,9 +909,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 714109,
-        "codigo_formateado" => "7.14.1.09..",
+        "pos" => 73,
+        "codigo" => 706109,
+        "codigo_formateado" => "7.06.1.09",
         "cuenta" => "DEPRECIACIONES Y AMORTIZACIONES",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -1047,9 +920,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141090101,
-        "codigo_formateado" => "7.14.1.09.01.01",
+        "pos" => 74,
+        "codigo" => 7061090101,
+        "codigo_formateado" => "7.06.1.09.01.01",
         "cuenta" => "Edificios",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -1058,9 +931,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141090102,
-        "codigo_formateado" => "7.14.1.09.01.02",
+        "pos" => 75,
+        "codigo" => 7061090102,
+        "codigo_formateado" => "7.06.1.09.01.02",
         "cuenta" => "Mobiliario y Equipo",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -1069,9 +942,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141090103,
-        "codigo_formateado" => "7.14.1.09.01.03",
+        "pos" => 76,
+        "codigo" => 7061090106,
+        "codigo_formateado" => "7.06.1.09.01.06",
         "cuenta" => "Vehículos",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -1080,9 +953,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141090201,
-        "codigo_formateado" => "7.14.1.09.02.01",
+        "pos" => 77,
+        "codigo" => 706109019901,
+        "codigo_formateado" => "7.06.1.09.01.99.01",
         "cuenta" => "Equipo de computación",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -1091,9 +964,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141090202,
-        "codigo_formateado" => "7.14.1.09.02.02",
+        "pos" => 78,
+        "codigo" => 706109019902,
+        "codigo_formateado" => "7.06.1.09.01.99.02",
         "cuenta" => "Herramientas",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -1102,9 +975,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141099901,
-        "codigo_formateado" => "7.14.1.09.99.01",
+        "pos" => 79,
+        "codigo" => 7061099901,
+        "codigo_formateado" => "7.06.1.09.99.01",
         "cuenta" => "Amortización gastos de instalación",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -1113,7 +986,7 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
+        "pos" => 80,
         "codigo" => 7141099902,
         "codigo_formateado" => "7.14.1.09.99.02",
         "cuenta" => "Amortización cuentas por amortizar",
@@ -1124,119 +997,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 714110,
-        "codigo_formateado" => "7.14.1.10..",
-        "cuenta" => "GASTOS VARIOS",
-        "tipo" => "titulo",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 7141100101,
-        "codigo_formateado" => "7.14.1.10.01.01",
-        "cuenta" => "Servicio de seguridad",
-        "tipo" => "cuenta",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 7141100201,
-        "codigo_formateado" => "7.14.1.10.02.01",
-        "cuenta" => "Energía eléctrica ",
-        "tipo" => "cuenta",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 7141100301,
-        "codigo_formateado" => "7.14.1.10.03.01",
-        "cuenta" => "Servicio de telecomunicaciones",
-        "tipo" => "cuenta",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 7141100401,
-        "codigo_formateado" => "7.14.1.10.04.01",
-        "cuenta" => "Alquileres",
-        "tipo" => "cuenta",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 7141100402,
-        "codigo_formateado" => "7.14.1.10.04.02",
-        "cuenta" => "Accesorios para computadora",
-        "tipo" => "cuenta",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 7141100403,
-        "codigo_formateado" => "7.14.1.10.04.03",
-        "cuenta" => "Varios e imprevistos",
-        "tipo" => "cuenta",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 7141100404,
-        "codigo_formateado" => "7.14.1.10.04.04",
-        "cuenta" => "Fletes ",
-        "tipo" => "cuenta",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 7141100405,
-        "codigo_formateado" => "7.14.1.10.04.05",
-        "cuenta" => "Material de empaque",
-        "tipo" => "cuenta",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 7141100406,
-        "codigo_formateado" => "7.14.1.10.04.06",
-        "cuenta" => "Combustibles y lubricantes",
-        "tipo" => "cuenta",
-        "posicion" => 1,
-        "sub_total_col_1" => 0,
-        "sub_total_col_2" => 0,
-        "sub_total_col_3" => 0
-    ],
-    [
-        "sel" => 0,
-        "codigo" => 714111,
-        "codigo_formateado" => "7.14.1.11..",
+        "pos" => 81,
+        "codigo" => 706110,
+        "codigo_formateado" => "7.06.1.10",
         "cuenta" => "PAPELERÍA",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -1245,10 +1008,10 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141110101,
-        "codigo_formateado" => "7.14.1.11.01.01",
-        "cuenta" => "Papelería y útiles oficina",
+        "pos" => 82,
+        "codigo" => 7061100101,
+        "codigo_formateado" => "7.06.1.10.01.01",
+        "cuenta" => "Papelería y útiles de oficina",
         "tipo" => "cuenta",
         "posicion" => 1,
         "sub_total_col_1" => 0,
@@ -1256,9 +1019,130 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 714112,
-        "codigo_formateado" => "7.14.1.12..",
+        "pos" => 83,
+        "codigo" => 706199,
+        "codigo_formateado" => "7.06.1.99",
+        "cuenta" => "GASTOS VARIOS",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 84,
+        "codigo" => 7061990101,
+        "codigo_formateado" => "7.06.1.99.01.01",
+        "cuenta" => "Servicio de seguridad",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 85,
+        "codigo" => 7061990901,
+        "codigo_formateado" => "7.06.1.99.09.01",
+        "cuenta" => "Energía eléctrica",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 86,
+        "codigo" => 7061999901,
+        "codigo_formateado" => "7.06.1.99.99.01",
+        "cuenta" => "Alquileres",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 87,
+        "codigo" => 7061999902,
+        "codigo_formateado" => "7.06.1.99.99.02",
+        "cuenta" => "Accesorios para computadora",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 88,
+        "codigo" => 7061999903,
+        "codigo_formateado" => "7.06.1.99.99.03",
+        "cuenta" => "Varios e imprevistos",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 89,
+        "codigo" => 7061999904,
+        "codigo_formateado" => "7.06.1.99.99.04",
+        "cuenta" => "Fletes",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 90,
+        "codigo" => 7061999905,
+        "codigo_formateado" => "7.06.1.99.99.05",
+        "cuenta" => "Material de empaque",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 91,
+        "codigo" => 7061999906,
+        "codigo_formateado" => "7.06.1.99.99.06",
+        "cuenta" => "Combustibles y lubricantes",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 92,
+        "codigo" => 709199,
+        "codigo_formateado" => "7.09.1.99",
+        "cuenta" => "OTROS",
+        "tipo" => "titulo",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 93,
+        "codigo" => 7091991201,
+        "codigo_formateado" => "7.09.1.99.12.01",
+        "cuenta" => "Servicio de telecomunicaciones",
+        "tipo" => "cuenta",
+        "posicion" => 1,
+        "sub_total_col_1" => 0,
+        "sub_total_col_2" => 0,
+        "sub_total_col_3" => 0
+    ],
+    [
+        "pos" => 94,
+        "codigo" => 713103,
+        "codigo_formateado" => "7.13.1.03",
         "cuenta" => "OTROS GASTOS",
         "tipo" => "titulo",
         "posicion" => 1,
@@ -1267,9 +1151,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141120101,
-        "codigo_formateado" => "7.14.1.12.01.01",
+        "pos" => 95,
+        "codigo" => 7131030101,
+        "codigo_formateado" => "7.13.1.03.01.01",
         "cuenta" => "Provisiones para indemnización ( gasto )",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -1278,9 +1162,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141120102,
-        "codigo_formateado" => "7.14.1.12.01.02",
+        "pos" => 96,
+        "codigo" => 7131030102,
+        "codigo_formateado" => "7.13.1.03.01.02",
         "cuenta" => "Provisiones para eventualidades ( gasto )",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -1289,9 +1173,9 @@ $listado = [
         "sub_total_col_3" => 0
     ],
     [
-        "sel" => 0,
-        "codigo" => 7141120103,
-        "codigo_formateado" => "7.14.1.12.01.03",
+        "pos" => 97,
+        "codigo" => 7131030103,
+        "codigo_formateado" => "7.13.1.03.01.03",
         "cuenta" => "Provisiones para cuentas incobrables ( gasto )",
         "tipo" => "cuenta",
         "posicion" => 1,
@@ -1305,67 +1189,63 @@ $listado = [
 
 
 
-$listado[10]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '6131010150')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '6131010151')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '6131010201')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '6131010202')['saldo_final'];
+
+// $listado[10]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '6131010150')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '6131010151')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '6131010201')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '6131010202')['saldo_final'];
+
+$listado[12]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '601101030210')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '601101030410')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '601101030411')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '601101030412')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '601101030413')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '601101040210')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '601101040402')['saldo_final'];
 
 
-// ESTAS CUENTAS SE AGREGAN A LA CUENTA 7131010101 PARA QUE CUADRE EL REPORTE
-$cuenta_compras_contado_tda_7 = buscar_cuenta_no_recursiva($respuesta, '7131010103')['saldo_final'];
-$cuenta_compras_credito_tda_7 = buscar_cuenta_no_recursiva($respuesta, '7131010104')['saldo_final'];
+$listado[17]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '6021019901')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '6021019902')['saldo_final'];
+
+$listado[18]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '6021019903')['saldo_final'];
+
+$listado[29]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '701101010201')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '701101010202')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '701101010203')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '701101010301')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '701101015001')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '701101020201')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '701101020202')['saldo_final'];
+
+$listado[34]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '70610101')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '70610103')['saldo_final'];
+
+$listado[38]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7061020101')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061020102')['saldo_final'];
+
+$listado[40]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7061020301')['saldo_final'];
+
+$listado[42]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7061020401')['saldo_final'];
+
+$listado[45]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7061020501')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061020502')['saldo_final'];
+
+$listado[47]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7061020901')['saldo_final'];
+
+$listado[49]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7061021001')['saldo_final'];
+
+$listado[53]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7061029901')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061029902')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061029903')['saldo_final'];
+
+$listado[59]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7061030101')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061030102')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061030103')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061030104')['saldo_final'];
+
+$listado[61]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7061030201')['saldo_final'];
+
+$listado[63]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7061049901')['saldo_final'];
+
+$listado[68]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7061060101')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061060201')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061060204')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061069901')['saldo_final'];
+
+$listado[70]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7061070201')['saldo_final'];
+
+$listado[72]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7061080101')['saldo_final'];
+
+$listado[80]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7061090101')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061090102')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061090106')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '706109019901')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '706109019902')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061099901')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141099902')['saldo_final'];
+
+$listado[82]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7061100101')['saldo_final'];
+
+$listado[91]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7061990101')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061990901')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061999901')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061999902')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061999903')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061999904')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061999905')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7061999906')['saldo_final'];
+
+$listado[93]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7091991201')['saldo_final'];
 
 
-$listado[23]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7131010101')['saldo_final'] + $cuenta_compras_contado_tda_7 + buscar_cuenta_no_recursiva($respuesta, '7131010102')['saldo_final'] + $cuenta_compras_credito_tda_7 + buscar_cuenta_no_recursiva($respuesta, '7131019903')['saldo_final'];
+$listado[97]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7131030101')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7131030102')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7131030103')['saldo_final'];
 
 
-$listado[26]['sub_total_col_2'] = abs($listado[23]['sub_total_col_2']) - abs(buscar_cuenta_no_recursiva($respuesta, '7131010105')['saldo_final']);
+$listado[18]['sub_total_col_3'] = $listado[12]['sub_total_col_2'] + $listado[17]['sub_total_col_2'] + $listado[18]['sub_total_col_2'];
 
-$listado[29]['sub_total_col_2'] = abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final']) + abs($listado[26]['sub_total_col_2']);
+$listado[97]['sub_total_col_3'] = $listado[29]['sub_total_col_2'] + $listado[33]['sub_total_col_2'] + $listado[34]['sub_total_col_2'] + $listado[37]['sub_total_col_2'] + $listado[38]['sub_total_col_2'] + $listado[40]['sub_total_col_2'] + $listado[42]['sub_total_col_2'] + $listado[45]['sub_total_col_2'] + $listado[47]['sub_total_col_2'] + $listado[49]['sub_total_col_2'] + $listado[53]['sub_total_col_2'] + $listado[59]['sub_total_col_2'] + $listado[61]['sub_total_col_2'] + $listado[63]['sub_total_col_2'] + $listado[68]['sub_total_col_2'] + $listado[70]['sub_total_col_2'] + $listado[72]['sub_total_col_2'] + $listado[73]['sub_total_col_2'] + $listado[80]['sub_total_col_2'] + $listado[82]['sub_total_col_2'] + $listado[91]['sub_total_col_2'] + $listado[93]['sub_total_col_2'] + $listado[97]['sub_total_col_2'];
 
-$listado[48]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '714101015001')['saldo_final'];
-$listado[49]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '714101020201')['saldo_final'];
-
-$listado[52]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7141020104')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141020201')['saldo_final'];
-
-
-$listado[64]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7141030101')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141030102')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141030201')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141030301')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141030401')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141030402')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141030501')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141030601')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141030701')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141030702')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141030703')['saldo_final'];
-
-$listado[70]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7141040101')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141040102')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141040103')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141040104')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141040201')['saldo_final'];
-
-$listado[72]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7141050101')['saldo_final'];
-
-$listado[77]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7141060101')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141060201')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141060203')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141060301')['saldo_final'];
-
-$listado[79]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7141070101')['saldo_final'];
-
-$listado[81]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7141080101')['saldo_final'];
-
-$listado[89]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7141090101')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141090102')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141090103')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141090201')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141090202')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141099901')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141099902')['saldo_final'];
-
-$listado[99]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7141100101')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141100201')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141100301')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141100401')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141100402')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141100403')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141100404')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141100405')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7141100406')['saldo_final'];
-
-$listado[101]['sub_total_col_2'] = buscar_cuenta_no_recursiva($respuesta, '7141110101')['saldo_final'];
-
-$listado[105]['sub_total_col_3'] = $listado[52]['sub_total_col_2'] + $listado[64]['sub_total_col_2'] + $listado[70]['sub_total_col_2'] + $listado[72]['sub_total_col_2'] + $listado[77]['sub_total_col_2'] + $listado[89]['sub_total_col_2'] + $listado[99]['sub_total_col_2'] + $listado[101]['sub_total_col_2'];
-
-
-$listado[13]['sub_total_col_3'] = (abs($listado[10]['sub_total_col_2']) - abs(buscar_cuenta_no_recursiva($respuesta, '6131019901')['saldo_final'])) - abs(buscar_cuenta_no_recursiva($respuesta, '6131019902')['saldo_final']);
-
-//ORIGINAL
-//$listado[31]['sub_total_col_3'] = abs($listado[29]['sub_total_col_2']) - $respuesta3[0]['inventario_final'];//abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final']);
-
-//PRUEBAS
-$listado[31]['sub_total_col_3'] = abs($listado[29]['sub_total_col_2']) - $respuesta3['inventario_final'];//abs(buscar_cuenta_no_recursiva($respuesta, '1131060101')['saldo_final']);
-
-$listado[32]['sub_total_col_3'] = abs($listado[13]['sub_total_col_3']) - abs($listado[31]['sub_total_col_3']);
-
-$listado[36]['sub_total_col_3'] = buscar_cuenta_no_recursiva($respuesta, '6131040101')['saldo_final'];
-
-$listado[40]['sub_total_col_3'] = buscar_cuenta_no_recursiva($respuesta, '6131060101')['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '6131060102')['saldo_final'];
-
-// RESUTALDO DEL TOTAL DEL EXCEDENTE LINEA 43 (se deja en valor absoluto porque vienen de forma negativa desde balance de saldos)
-$listado[43]['sub_total_col_3'] = abs($listado[32]['sub_total_col_3']) + abs($listado[36]['sub_total_col_3']) + abs($listado[40]['sub_total_col_3']);
-
-
-$EXEDENTE_FINAL = abs($listado[43]['sub_total_col_3']) - abs($listado[105]['sub_total_col_3']);
+$EXEDENTE_FINAL = abs($listado[18]['sub_total_col_3']) - abs($listado[97]['sub_total_col_3']);
 
 $row_1 = 20;
 $row_2 = 35;
@@ -1382,16 +1262,17 @@ $html = '
             COOPERATIVA SITRABI, R.L.
         </div>
         <div class="titulo_sub">
-            ESTADO DE PRODUCTOS Y GASTOS, SECCION CONSUMO
+            ESTADO DE PRODUCTOS Y GASTOS, SECCION AHORRO Y CREDITO
         </div>
         <div class="titulo_sub">
-            DEL ' . date('d/m/Y', strtotime($fecha_inicial)) . ' AL ' . date('d/m/Y', strtotime($fecha_final)) . ' 
+            DEL ' . date('d/m/Y', strtotime($fecha_inicial)) . ' AL ' . date('d/m/Y', strtotime($fecha_final)) . '
         </div>
         <div class="titulo_sub">
             (CIFRAS EN QUETZALES)
         </div>
 
         <table class="table">';
+
 
 
 foreach ($listado as $key) {
@@ -1428,7 +1309,7 @@ foreach ($listado as $key) {
         if ($key['posicion'] == 1) {
             $html .= '
                 <tr>
-                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">'. $codigo_cuenta_ . '</td>
+                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">' . $codigo_cuenta_ . '</td>
                     <td class="estilo_celda" style="width: ' . $row_2 . '%;">' . $nombre_cuenta_ . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_3 . '%;">Q' . number_format(abs($resultado_['saldo_final']), 2, '.', ',') . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_4 . '%;">' . $sub_total_col_2_ . '</td>
@@ -1436,42 +1317,19 @@ foreach ($listado as $key) {
                 </tr>
             ';
         } elseif ($key['posicion'] == 2) {
-
-            if ((string)$key['sel'] == 1) {
-                //$set_variable = $respuesta3[0]['inventario_final'];
-                $set_variable = $respuesta3['inventario_final'];
-            }else{
-                // SE AGREGA ESTA CONDICIONAL A PEDIDO DEL CONTADOR, YA QUE HAY QUE SUMAR DOS CUENTAS MÁS
-
-                if ((string)$key['codigo'] == '7131010101') {
-                    
-                    //CUENTA 7131010103 => COMPRAS AL CONTADO TDA, 07
-                    $set_variable = $resultado_['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7131010103')['saldo_final'];
-
-                }elseif((string)$key['codigo'] == '7131010102'){
-
-                    //CUENTA 7131010103 => COMPRAS AL CRÉDITO TDA. 07
-                    $set_variable = $resultado_['saldo_final'] + buscar_cuenta_no_recursiva($respuesta, '7131010104')['saldo_final'];
-
-                }else{
-                    $set_variable = $resultado_['saldo_final'];
-                }
-
-            }
-
             $html .= '
                 <tr>
-                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">'. $codigo_cuenta_ . '</td>
+                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">' . $codigo_cuenta_ . '</td>
                     <td class="estilo_celda" style="width: ' . $row_2 . '%;">' . $nombre_cuenta_ . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_3 . '%;">' . $sub_total_col_1_ . '</td>
-                    <td class="estilo_celda centrar_texto" style="width: ' . $row_4 . '%;">Q' . number_format(abs($set_variable), 2, '.', ',') . '</td>
+                    <td class="estilo_celda centrar_texto" style="width: ' . $row_4 . '%;">Q' . number_format(abs($resultado_['saldo_final']), 2, '.', ',') . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_5 . '%;">' . $sub_total_col_3_ . '</td>
                 </tr>
             ';
         } else {
             $html .= '
                 <tr>
-                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">'. $codigo_cuenta_ . '</td>
+                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">' . $codigo_cuenta_ . '</td>
                     <td class="estilo_celda" style="width: ' . $row_2 . '%;">' . $nombre_cuenta_ . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_3 . '%;">' . $sub_total_col_1_ . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_4 . '%;">' . $sub_total_col_2_ . '</td>
@@ -1486,11 +1344,8 @@ foreach ($listado as $key) {
 
 
 
-
-
-
 $html .= '<tr>
-                <td class="estilo_celda2 fondo_gris_titulo estilo_bold" style="width: ' . $row_1 . '%;">34-111</td>
+                <td class="estilo_celda2 fondo_gris_titulo estilo_bold" style="width: ' . $row_1 . '%;">34-11</td>
                 <td class="estilo_celda fondo_gris_titulo estilo_bold" style="width: ' . $row_2 . '%;">EXCEDENTES</td>
                 <td class="estilo_celda fondo_gris_titulo estilo_bold centrar_texto" style="width: ' . $row_3 . '%;"></td>
                 <td class="estilo_celda fondo_gris_titulo estilo_bold centrar_texto" style="width: ' . $row_4 . '%;"></td>

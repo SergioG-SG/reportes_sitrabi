@@ -14,13 +14,14 @@ $fecha_final = $_GET['fecha_final'];
 $centro_de_costo = $_GET['centro_de_costo'];
 $token = $_GET['token'];
 $env = $_GET['env'];
+$ip_dev = "192.168.1.68";
 
 
 //OBTENER ARBOL DE CUENTAS
 
-$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos" : "http://100.78.93.50:8009/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos";
+$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos" : "http://". $ip_dev .":8009/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos";
 
-$url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/centros-de-costos/c/nombre/" . $centro_de_costo : "http://100.78.93.50:8009/api/centros-de-costos/c/nombre/" . $centro_de_costo;
+$url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/centros-de-costos/c/nombre/" . $centro_de_costo : "http://". $ip_dev .":8009/api/centros-de-costos/c/nombre/" . $centro_de_costo;
 
 $data = array(
     "data" => array(
@@ -1288,7 +1289,7 @@ foreach ($listado as $key) {
 
         $html .= '
                 <tr>
-                    <td class="estilo_celda2 fondo_gris_titulo estilo_bold" style="width: ' . $row_1 . '%;">' . $pos ."-"  . $codigo_cuenta_ . '</td>
+                    <td class="estilo_celda2 fondo_gris_titulo estilo_bold" style="width: ' . $row_1 . '%;">'  . $codigo_cuenta_ . '</td>
                     <td class="estilo_celda fondo_gris_titulo estilo_bold" style="width: ' . $row_2 . '%;">' . $nombre_cuenta_ . '</td>
                     <td class="estilo_celda fondo_gris_titulo estilo_bold centrar_texto" style="width: ' . $row_3 . '%;"></td>
                     <td class="estilo_celda fondo_gris_titulo estilo_bold centrar_texto" style="width: ' . $row_4 . '%;"></td>
@@ -1297,7 +1298,7 @@ foreach ($listado as $key) {
     } elseif ($key['tipo']  == 'espacio') {
 
         $html .= '<tr>
-                <td class="estilo_celda2" style="width: ' . $row_1 . '%;">' . $pos ."-". '</td>
+                <td class="estilo_celda2" style="width: ' . $row_1 . '%;"></td>
                 <td class="estilo_celda" style="width: ' . $row_2 . '%;">' . $key['cuenta'] . '</td>
                 <td class="estilo_celda centrar_texto" style="width: ' . $row_3 . '%;">' . $sub_total_col_1_ . '</td>
                 <td class="estilo_celda centrar_texto" style="width: ' . $row_4 . '%;">' . $sub_total_col_2_ . '</td>
@@ -1308,7 +1309,7 @@ foreach ($listado as $key) {
         if ($key['posicion'] == 1) {
             $html .= '
                 <tr>
-                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">'. $pos ."-" . $codigo_cuenta_ . '</td>
+                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">' . $codigo_cuenta_ . '</td>
                     <td class="estilo_celda" style="width: ' . $row_2 . '%;">' . $nombre_cuenta_ . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_3 . '%;">Q' . number_format(abs($resultado_['saldo_final']), 2, '.', ',') . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_4 . '%;">' . $sub_total_col_2_ . '</td>
@@ -1318,7 +1319,7 @@ foreach ($listado as $key) {
         } elseif ($key['posicion'] == 2) {
             $html .= '
                 <tr>
-                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">'. $pos ."-" . $codigo_cuenta_ . '</td>
+                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">'. $codigo_cuenta_ . '</td>
                     <td class="estilo_celda" style="width: ' . $row_2 . '%;">' . $nombre_cuenta_ . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_3 . '%;">' . $sub_total_col_1_ . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_4 . '%;">Q' . number_format(abs($resultado_['saldo_final']), 2, '.', ',') . '</td>
@@ -1328,7 +1329,7 @@ foreach ($listado as $key) {
         } else {
             $html .= '
                 <tr>
-                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">'. $pos ."-" . $codigo_cuenta_ . '</td>
+                    <td class="estilo_celda2" style="width: ' . $row_1 . '%;">'. $codigo_cuenta_ . '</td>
                     <td class="estilo_celda" style="width: ' . $row_2 . '%;">' . $nombre_cuenta_ . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_3 . '%;">' . $sub_total_col_1_ . '</td>
                     <td class="estilo_celda centrar_texto" style="width: ' . $row_4 . '%;">' . $sub_total_col_2_ . '</td>
@@ -1338,7 +1339,7 @@ foreach ($listado as $key) {
         }
     }
 
-    $pos += 1;
+    // $pos += 1;
 }
 
 

@@ -11,14 +11,14 @@ require_once('mpdf/mpdf.php');
 
 $fecha_inicial = $_GET['fecha_inicial'];
 $fecha_final = $_GET['fecha_final'];
-$centro_de_costo = $_GET['centro_de_costo'];
+$centro_de_costo = 0;// $_GET['centro_de_costo'];
 $token = $_GET['token'];
 $env = $_GET['env'];
 $ip_dev = "192.168.1.68";
 
 //OBTENER ARBOL DE CUENTAS
 
-$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos" : "http://". $ip_dev .":8009/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos";
+$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte-balance-saldos-ssi" : "http://". $ip_dev .":8009/api/contabilidad-transaccion-cabeceras/c/reporte-balance-saldos-ssi";
 
 $url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/centros-de-costos/c/nombre/" . $centro_de_costo : "http://". $ip_dev .":8009/api/centros-de-costos/c/nombre/" . $centro_de_costo;
 
