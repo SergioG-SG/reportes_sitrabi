@@ -18,11 +18,12 @@ $fecha_final = $_GET['fecha_final'];
 $centro_de_costo = $_GET['centro_de_costo'];
 $token = $_GET['token'];
 $env = $_GET['env'];
+$ip_dev = "192.168.1.68";
 
 
 //OBTENER ARBOL DE CUENTAS
 
-$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos" : "http://100.78.93.50:8009/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos";
+$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos" : "http://" . $ip_dev . ":8009/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos";
 
 $data = array(
     "data" => array(
@@ -47,7 +48,7 @@ $opciones = array(
 
 // NOMBRES DE CENTROS DE COSTO
 
-$url5 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/centros-de-costos/c/nombre/" . $centro_de_costo : "http://100.78.93.50:8009/api/centros-de-costos/c/nombre/" . $centro_de_costo;
+$url5 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/centros-de-costos/c/nombre/" . $centro_de_costo : "http://" . $ip_dev . ":8009/api/centros-de-costos/c/nombre/" . $centro_de_costo;
 
 $opciones5 = array('http' => array(
     'method' => 'GET',
@@ -58,7 +59,7 @@ $opciones5 = array('http' => array(
 $contexto5 = stream_context_create($opciones5);
 $ccostos = json_decode(@file_get_contents($url5, false, $contexto5), true);
 
-$nombre_centro_de_costo = $centro_de_costo == 0 ? "GENERAL" : $ccostos[0][nombre]; 
+$nombre_centro_de_costo = $centro_de_costo == 0 ? "GENERAL" : $ccostos[0][nombre];
 
 
 // OBTENER CATALOGO DE CUENTAS
@@ -139,7 +140,7 @@ $html = '
             BALANCE DE SALDOS ' . date('d/m/Y', strtotime($fecha_inicial)) . ' al ' . date('d/m/Y', strtotime($fecha_final)) . '
         </div>
         <div class="titulo">
-            ** '. $nombre_centro_de_costo .' **
+            ** ' . $nombre_centro_de_costo . ' **
         </div>
         <table class="table">
             <tr>
