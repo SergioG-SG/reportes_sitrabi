@@ -22,7 +22,7 @@ $env = $_GET['env'];
 
 //OBTENER ARBOL DE CUENTAS
 
-$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos" : "http://100.78.93.50:8009/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos";
+$url = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos" : "http://100.78.93.50:8009/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos";
 
 $data = array(
     "data" => array(
