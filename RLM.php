@@ -26,7 +26,7 @@ $env = $_GET['env'];
 
 //OBTENER ARBOL DE CUENTAS
 
-$url = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/contabilidad-transacciones/c/libro_mayor?fecha_inicial=". $fecha_inicial ."&fecha_final=" . $fecha_final ."&centro_de_costo=" . $centro_de_costo ."&tipo_de_poliza=". $tipo_de_poliza ."&empresa=". $empresa . "&cuenta=" . $cod_cuenta : "http://100.78.93.50:8009/api/contabilidad-transacciones/c/libro_mayor?fecha_inicial=". $fecha_inicial ."&fecha_final=" . $fecha_final ."&centro_de_costo=" . $centro_de_costo ."&tipo_de_poliza=". $tipo_de_poliza ."&empresa=". $empresa . "&cuenta=" . $cod_cuenta;
+$url = $env == 'p' ? "http://186.151.206.62/app/coope/api/contabilidad-transacciones/c/libro_mayor?fecha_inicial=". $fecha_inicial ."&fecha_final=" . $fecha_final ."&centro_de_costo=" . $centro_de_costo ."&tipo_de_poliza=". $tipo_de_poliza ."&empresa=". $empresa . "&cuenta=" . $cod_cuenta : "http://100.78.93.50:8009/api/contabilidad-transacciones/c/libro_mayor?fecha_inicial=". $fecha_inicial ."&fecha_final=" . $fecha_final ."&centro_de_costo=" . $centro_de_costo ."&tipo_de_poliza=". $tipo_de_poliza ."&empresa=". $empresa . "&cuenta=" . $cod_cuenta;
 
 
 // OBTENER CATALOGO DE CUENTAS
@@ -48,7 +48,7 @@ $gran_total = $gran_suma_debe - $gran_suma_haber;
 
 // OBTENER NOMBRES DE POLIZAS
 
-$url2 = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/contabilidad-tipo-de-polizas" : "http://100.78.93.50:8009/api/contabilidad-tipo-de-polizas";
+$url2 = $env == 'p' ? "http://186.151.206.62/app/coope/api/contabilidad-tipo-de-polizas" : "http://100.78.93.50:8009/api/contabilidad-tipo-de-polizas";
 
 
 $opciones2 = array('http' => array(
