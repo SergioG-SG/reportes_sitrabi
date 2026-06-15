@@ -25,7 +25,7 @@ $env = $_GET['env'];
 
 //OBTENER DATOS PARA LIBRO MAYOR
 
-$url = $env == 'p' ? "http://186.151.206.62/app/coope/api/contabilidad-transacciones/c/libro_mayor_por_cuenta?fecha_inicial=". $fecha_inicial ."&fecha_final=" . $fecha_final . "&cuenta=". $cuenta : "http://100.78.93.50:8009/api/contabilidad-transacciones/c/libro_mayor_por_cuenta?fecha_inicial=". $fecha_inicial ."&fecha_final=" . $fecha_final . "&cuenta=" . $cuenta;
+$url = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/contabilidad-transacciones/c/libro_mayor_por_cuenta?fecha_inicial=". $fecha_inicial ."&fecha_final=" . $fecha_final . "&cuenta=". $cuenta : "http://100.78.93.50:8009/api/contabilidad-transacciones/c/libro_mayor_por_cuenta?fecha_inicial=". $fecha_inicial ."&fecha_final=" . $fecha_final . "&cuenta=" . $cuenta;
 
 
 // OBTENER CATALOGO DE CUENTAS
@@ -47,7 +47,7 @@ $suma_haber = 0;
 
 // OBTENER NOMBRES DE POLIZAS
 
-$url2 = $env == 'p' ? "http://186.151.206.62/app/coope/api/contabilidad-tipo-de-polizas" : "http://100.78.93.50:8009/api/contabilidad-tipo-de-polizas";
+$url2 = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/contabilidad-tipo-de-polizas" : "http://100.78.93.50:8009/api/contabilidad-tipo-de-polizas";
 
 
 $opciones2 = array('http' => array(
@@ -63,7 +63,7 @@ $respuesta2 = json_decode(file_get_contents($url2, false, $contexto2), true);
 
 // OBTENER BALANCE DE SALDOS
 
-$url3 = $env == 'p' ? "http://186.151.206.62/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos" : "http://100.78.93.50:8009/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos";
+$url3 = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos" : "http://100.78.93.50:8009/api/contabilidad-transaccion-cabeceras/c/reporte_balance_saldos";
 
 $data = array(
     "data" => array(

@@ -18,15 +18,15 @@ $ip_dev = "192.168.1.68";
 
 //OBTENER ARBOL DE CUENTAS
 
-$url = $env == 'p' ? "http://186.151.206.62/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte-balance-saldos-ssi" : "http://". $ip_dev .":8009/api/contabilidad-transaccion-cabeceras/c/reporte-balance-saldos-ssi";
+$url = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte-balance-saldos-ssi" : "http://". $ip_dev .":8009/api/contabilidad-transaccion-cabeceras/c/reporte-balance-saldos-ssi";
 
-$url2 = $env == 'p' ? "http://186.151.206.62/app/coope/api/centros-de-costos/c/nombre/" . $centro_de_costo : "http://". $ip_dev .":8009/api/centros-de-costos/c/nombre/" . $centro_de_costo;
+$url2 = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/centros-de-costos/c/nombre/" . $centro_de_costo : "http://". $ip_dev .":8009/api/centros-de-costos/c/nombre/" . $centro_de_costo;
 
 
 // consulta al gparametros para traer el saldo final que se guarda manualmente // tiene un 0 al final porque es el centro de costo que pide pero que se ha desabilitado
-// $url3 = $env == 'p' ? "http://186.151.206.62/app/coope/api/gparametros/c/parametros/0" : "http://". $ip_dev .":8009/api/gparametros/c/parametros/0";
+// $url3 = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/gparametros/c/parametros/0" : "http://". $ip_dev .":8009/api/gparametros/c/parametros/0";
 
-$url3 = $env == 'p' ? "http://186.151.206.62/app/coope/api/gparametros/c/inventario_por_trimestre/". $fecha_final : "http://". $ip_dev .":8009/api/gparametros/c/inventario_por_trimestre/". $fecha_final;
+$url3 = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/gparametros/c/inventario_por_trimestre/". $fecha_final : "http://". $ip_dev .":8009/api/gparametros/c/inventario_por_trimestre/". $fecha_final;
 
 
 $data = array(

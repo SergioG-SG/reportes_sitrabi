@@ -18,8 +18,8 @@ $token = $_GET['token'];
 $env = $_GET['env'];
 
 
-$url = $env == 'p' ? "http://186.151.206.62/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_libro_diario" : "http://100.78.93.50:8009/api/contabilidad-transaccion-cabeceras/c/reporte_libro_diario";
-$url2 = $env == 'p' ? "http://186.151.206.62/app/coope/api/contabilidad-tipo-de-polizas" : "http://100.78.93.50:8009/api/contabilidad-tipo-de-polizas";
+$url = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/c/reporte_libro_diario" : "http://100.78.93.50:8009/api/contabilidad-transaccion-cabeceras/c/reporte_libro_diario";
+$url2 = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/contabilidad-tipo-de-polizas" : "http://100.78.93.50:8009/api/contabilidad-tipo-de-polizas";
 
 $data = array(
     "data" => array(
