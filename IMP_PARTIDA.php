@@ -14,13 +14,13 @@ $token = $_GET['token'];
 $env = $_GET['env'];
 
 
-$url = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/contabilidad-transacciones?filters[id_random][\$eq]=". $ids . "&pagination[page]=1&pagination[pageSize]=500" : "http://100.78.93.50:8009/api/contabilidad-transacciones?filters[id_random][\$eq]=". $ids . "&pagination[page]=1&pagination[pageSize]=500";
+$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transacciones?filters[id_random][\$eq]=". $ids . "&pagination[page]=1&pagination[pageSize]=500" : "http://100.78.93.50:8009/api/contabilidad-transacciones?filters[id_random][\$eq]=". $ids . "&pagination[page]=1&pagination[pageSize]=500";
 
 
-$url2 = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras?filters[id_random][\$eq]=" . $ids : "http://100.78.93.50:8009/api/contabilidad-transaccion-cabeceras?filters[id_random][\$eq]=" . $ids;
+$url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras?filters[id_random][\$eq]=" . $ids : "http://100.78.93.50:8009/api/contabilidad-transaccion-cabeceras?filters[id_random][\$eq]=" . $ids;
 
 
-$url4 = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/contabilidad-tipo-de-polizas" : "http://100.78.93.50:8009/api/contabilidad-tipo-de-polizas";
+$url4 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-tipo-de-polizas" : "http://100.78.93.50:8009/api/contabilidad-tipo-de-polizas";
 
 
 
@@ -97,7 +97,7 @@ function convertir_nombre_poliza($polizas, $id)
 
 function obtener_nombre_cuenta($codigo, $token, $empresa, $env){
 
-    $url_3 = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/catalogo-de-cuentas?filters[codigo_formateado][\$eq][0]=". $codigo ."&filters[empresa][\$eq][1]=1" : "http://100.78.93.50:8009/api/catalogo-de-cuentas?filters[codigo_formateado][\$eq][0]=". $codigo ."&filters[empresa][\$eq][1]=" . $empresa;
+    $url_3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/catalogo-de-cuentas?filters[codigo_formateado][\$eq][0]=". $codigo ."&filters[empresa][\$eq][1]=1" : "http://100.78.93.50:8009/api/catalogo-de-cuentas?filters[codigo_formateado][\$eq][0]=". $codigo ."&filters[empresa][\$eq][1]=" . $empresa;
 
     $opciones_3 = array('http' => array(
         'method' => 'GET',
@@ -116,7 +116,7 @@ function obtener_nombre_cuenta($codigo, $token, $empresa, $env){
 
 // NOMBRES CENTRO DE COSTO
 
-$url5 = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/centros-de-costos/c/nombre/" . $cabecera[data][0][attributes][centro_de_costo] : "http://100.78.93.50:8009/api/centros-de-costos/c/nombre/" . $cabecera[data][0][attributes][centro_de_costo];
+$url5 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/centros-de-costos/c/nombre/" . $cabecera[data][0][attributes][centro_de_costo] : "http://100.78.93.50:8009/api/centros-de-costos/c/nombre/" . $cabecera[data][0][attributes][centro_de_costo];
 
 
 $opciones5 = array('http' => array(

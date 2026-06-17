@@ -26,7 +26,7 @@ $env = $_GET['env'];
 
 //OBTENER ARBOL DE CUENTAS
 
-$url = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/r/filtro_polizas?fecha_inicial=". $fecha_inicial ."&fecha_final=". $fecha_final ."&empresa=". $empresa ."&centro_de_costo=". $centro_de_costo ."&tipo_de_poliza=" . $tipo_de_poliza : "http://100.78.93.50:8009/api/contabilidad-transaccion-cabeceras/r/filtro_polizas?fecha_inicial=". $fecha_inicial ."&fecha_final=". $fecha_final ."&empresa=". $empresa ."&centro_de_costo=". $centro_de_costo ."&tipo_de_poliza=" . $tipo_de_poliza;
+$url = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-transaccion-cabeceras/r/filtro_polizas?fecha_inicial=". $fecha_inicial ."&fecha_final=". $fecha_final ."&empresa=". $empresa ."&centro_de_costo=". $centro_de_costo ."&tipo_de_poliza=" . $tipo_de_poliza : "http://100.78.93.50:8009/api/contabilidad-transaccion-cabeceras/r/filtro_polizas?fecha_inicial=". $fecha_inicial ."&fecha_final=". $fecha_final ."&empresa=". $empresa ."&centro_de_costo=". $centro_de_costo ."&tipo_de_poliza=" . $tipo_de_poliza;
 
 
 
@@ -48,7 +48,7 @@ $suma_haber = 0;
 
 // OBTENER NOMBRES DE POLIZAS
 
-$url2 = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/contabilidad-tipo-de-polizas?filters[empresa][\$eq]=" . $empresa : "http://100.78.93.50:8009/api/contabilidad-tipo-de-polizas?filters[empresa][\$eq]=" . $empresa;
+$url2 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/contabilidad-tipo-de-polizas?filters[empresa][\$eq]=" . $empresa : "http://100.78.93.50:8009/api/contabilidad-tipo-de-polizas?filters[empresa][\$eq]=" . $empresa;
 
 
 $opciones2 = array('http' => array(
@@ -62,7 +62,7 @@ $respuesta2 = json_decode(file_get_contents($url2, false, $contexto2), true);
 
 // OBTENER NOMBRES DE CENTROS DE COSTO
 
-$url3 = $env == 'p' ? "https://coopesitrabi.ddns.net/app/coope/api/centros-de-costos?filters[empresa][\$eq]=" . $empresa : "http://100.78.93.50:8009/api/centros-de-costos?filters[empresa][\$eq]=" . $empresa;
+$url3 = $env == 'p' ? "https://cooperativasitrabi.ddns.net/app/coope/api/centros-de-costos?filters[empresa][\$eq]=" . $empresa : "http://100.78.93.50:8009/api/centros-de-costos?filters[empresa][\$eq]=" . $empresa;
 
 
 $opciones3 = array('http' => array(

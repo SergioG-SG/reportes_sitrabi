@@ -13,7 +13,7 @@ $cuenta = $_GET['cuenta'];
 $token = $_GET['token'];
 $env = $_GET['env'];
 
-$url = $env == 'p' ? "http://coopesitrabi.ddns.net/app/coope/api/bancos-transacciones/c/listado_notas_credito?fi=" . $fecha_inicial . "&ff=" . $fecha_final . "&cuenta=" . $cuenta : "http://localhost:8009/api/bancos-transacciones/c/listado_notas_credito?fi=" . $fecha_inicial . "&ff=" . $fecha_final . "&cuenta=" . $cuenta;
+$url = $env == 'p' ? "http://cooperativasitrabi.ddns.net/app/coope/api/bancos-transacciones/c/listado_notas_credito?fi=" . $fecha_inicial . "&ff=" . $fecha_final . "&cuenta=" . $cuenta : "http://localhost:8009/api/bancos-transacciones/c/listado_notas_credito?fi=" . $fecha_inicial . "&ff=" . $fecha_final . "&cuenta=" . $cuenta;
 
 
 $query_listado = array('http' => array(
