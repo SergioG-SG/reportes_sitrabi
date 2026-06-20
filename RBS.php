@@ -15,6 +15,7 @@ require_once('mpdf/mpdf.php');
 
 $fecha_inicial = $_GET['fecha_inicial'];
 $fecha_final = $_GET['fecha_final'];
+$empresa = $_GET['empresa'];
 $centro_de_costo = $_GET['centro_de_costo'];
 $token = $_GET['token'];
 $env = $_GET['env'];
@@ -29,6 +30,7 @@ $data = array(
     "data" => array(
         "fecha_inicial" => $fecha_inicial,
         "fecha_final" => $fecha_final,
+        "empresa" => $empresa,
         "centro_de_costo" => $centro_de_costo
     )
 );
