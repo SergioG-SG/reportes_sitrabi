@@ -14,6 +14,7 @@ $fecha_inicial = $_GET['fecha_inicial'];
 $fecha_final = $_GET['fecha_final'];
 $centro_de_costo = 0;
 $token = $_GET['token'];
+$empresa = $_GET['empresa'];
 $env = $_GET['env'];
 $ip_dev = "192.168.1.68";
 
@@ -34,6 +35,7 @@ $data = array(
     "data" => array(
         "fecha_inicial" => $fecha_inicial,
         "fecha_final" => $fecha_final,
+        "empresa" => $empresa,
         "centro_de_costo" => $centro_de_costo
     )
 );
